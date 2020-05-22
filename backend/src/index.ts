@@ -1,14 +1,15 @@
 import {connectToDatabase} from "./db";
 import {initializeCore} from "./core";
 import {startServer} from "./web";
+import {DATABASE_URI, SERVICE_PORT, SESSIONS_SECRET} from "./config";
 
 
 async function main() {
     // Connecting to database
     const db = await connectToDatabase({
-        uri: "mongodb://localhost/letmeknow"
+        uri: DATABASE_URI,
     });
-    console.log(`Connected to database (URL)`)
+    console.log(`Connected to database (${DATABASE_URI})`)
 
     // Initializing core
     const core = await initializeCore({
@@ -18,11 +19,11 @@ async function main() {
 
     // Starting web server
     await startServer({
-        port: 3000,
-        sessionSecret: "q341231232",
+        port: SERVICE_PORT,
+        sessionSecret: SESSIONS_SECRET,
         core,
     });
-    console.log(`Web server started at port (PORT)`)
+    console.log(`Web server started (http://localhost:${SERVICE_PORT})`)
 }
 
 
