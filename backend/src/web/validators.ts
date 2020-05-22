@@ -1,4 +1,4 @@
-import {boolean, byDefault, Chain, createContinueResult, treat, number, createErrorResult, required, shape, string} from "treat-like";
+import {boolean, byDefault, Chain, createContinueResult, treat, array, number, createErrorResult, required, shape, string} from "treat-like";
 import {ValidationError} from "./errors";
 import {SecretKind} from "../db/models/secret";
 
@@ -40,11 +40,19 @@ export const registrationSchema = shape({
     password: requiredString,
 });
 
+export const channelCreateSchema = shape({
+    secretId: systemIdSchema,
+    template: requiredString,
+    isActive: byDefault(true).then(boolean),
+});
+
 export const eventCreateSchema = shape({
     name: requiredString,
     description: optionalString,
 
     isActive: byDefault(true).then(boolean),
+
+    channels: array(channelCreateSchema),
 });
 
 export const baseSecretCreateSchema = shape({

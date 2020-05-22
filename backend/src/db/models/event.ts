@@ -12,6 +12,12 @@ interface Scheme {
     description: string;
 
     isActive: boolean;
+
+    channels: {
+        secretId: ObjectId;
+        template: string;
+        isActive: boolean;
+    }[];
 }
 
 export interface Event {
@@ -23,6 +29,12 @@ export interface Event {
     description: string;
 
     isActive: boolean;
+
+    channels: {
+        secretId: string;
+        template: string;
+        isActive: boolean;
+    }[];
 }
 
 export interface Event_CreateForm {
@@ -30,6 +42,12 @@ export interface Event_CreateForm {
     description: string;
 
     isActive: boolean;
+
+    channels: {
+        secretId: string;
+        template: string;
+        isActive: boolean;
+    }[];
 }
 
 export type Event_UpdateForm = Event_CreateForm;
@@ -54,6 +72,12 @@ export async function createEventAdapter(db: Db) {
             description: form.description,
 
             isActive: form.isActive,
+
+            channels: form.channels.map(c => ({
+                secretId: toMongoId(c.secretId),
+                template: c.template,
+                isActive: c.isActive,
+            }))
         }
 
         await collection.insertOne(doc);
@@ -76,6 +100,12 @@ export async function createEventAdapter(db: Db) {
                 description: form.description,
 
                 isActive: form.isActive,
+
+                channels: form.channels.map(c => ({
+                    secretId: toMongoId(c.secretId),
+                    template: c.template,
+                    isActive: c.isActive,
+                }))
             }
         }
 
@@ -152,6 +182,12 @@ function fromDb(doc: Scheme): Event {
         description: doc.description,
 
         isActive: doc.isActive,
+
+        channels: doc.channels.map(c => ({
+            secretId: fromMongoId(c.secretId),
+            template: c.template,
+            isActive: c.isActive,
+        }))
     }
 }
 
