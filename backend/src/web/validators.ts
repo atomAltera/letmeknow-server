@@ -1,10 +1,21 @@
-import {boolean, byDefault, Chain, createContinueResult, treat, array, number, createErrorResult, required, shape, string} from "treat-like";
+import {
+    array,
+    boolean,
+    byDefault,
+    Chain,
+    check,
+    createContinueResult,
+    createErrorResult,
+    number,
+    shape,
+    string,
+    treat
+} from "treat-like";
 import {ValidationError} from "./errors";
 import {SecretKind} from "../db/models/secret";
 
-const requiredString = required.then(string);
+const requiredString = string.then(check(x => x.length > 0, "required"));
 const optionalString = byDefault("").then(string);
-const requiredNumber = required.then(number);
 
 const choices = <T extends any>(...args: T[]) => treat((value: T) => {
     if (args.includes(value)) {
@@ -33,6 +44,7 @@ export const systemIdSchema = requiredString.then(value => {
 export const loginSchema = shape({
     email: requiredString,
     password: requiredString,
+    remember: byDefault(false).then(boolean),
 });
 
 export const registrationSchema = shape({
@@ -67,7 +79,7 @@ export const partTelegramSecretCreateSchema = shape({
 
 export const partEmailSecretCreateSchema = shape({
     host: requiredString,
-    port: requiredNumber,
+    port: number,
     username: requiredString,
     password: requiredString,
     useSSL: boolean,

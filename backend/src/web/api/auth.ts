@@ -1,14 +1,14 @@
 import {Request, Response} from "express";
 import {validateBy, loginSchema} from "../validators";
 import {AuthError} from "../errors";
-import {setLoggedInUserId} from "../auth";
+import {authenticate, setLoggedInUserId} from "../auth";
 
 
 /**
  * Handles user login
  */
 export async function loginHandler(req: Request, res: Response) {
-    const {email, password} = validateBy(req.body, loginSchema);
+    const {email, password, remember} = validateBy(req.body, loginSchema);
 
     const user = await req.core.user.login(email, password);
 
@@ -16,7 +16,15 @@ export async function loginHandler(req: Request, res: Response) {
         throw new AuthError();
     }
 
-    setLoggedInUserId(user.id, res, req.config.sessionSecret)
+    setLoggedInUserId(user.id, remember, res, req.config.sessionSecret)
 
     return user;
+}
+
+
+/**
+ * Handles current user request
+ */
+export async function loggedInUserHandler(req: Request, res: Response) {
+    return authenticate(req);
 }

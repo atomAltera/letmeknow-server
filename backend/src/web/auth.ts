@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response} from "express";
+import {Request, Response} from "express";
 import jwt from "jsonwebtoken";
 import {AccessError} from "./errors";
 import {User} from "../db";
@@ -42,12 +42,12 @@ const checkAuthToken = (token: string, secret: string): string | undefined => {
 /**
  * Sets user id to cookie to make it logged in
  */
-export const setLoggedInUserId = (userId: string, res: Response, secret: string) => {
+export const setLoggedInUserId = (userId: string, remember: boolean, res: Response, secret: string) => {
     const token = createAuthToken(userId, secret);
 
     const maxAge = TOKEN_AGE * 1000;
 
-    res.cookie("auth", token, {maxAge});
+    res.cookie("auth", token, remember ? {maxAge} : {});
 };
 
 /**

@@ -11,7 +11,7 @@ export async function registrationHandler(req: Request, res: Response) {
 
     const user = await req.core.user.register(form);
 
-    setLoggedInUserId(user.id, res, req.config.sessionSecret)
+    setLoggedInUserId(user.id, true, res, req.config.sessionSecret)
 
     return user;
 }
