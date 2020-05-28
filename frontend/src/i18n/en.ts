@@ -1,6 +1,13 @@
 export default {
+    menu: {
+        events: "Events",
+        secrets: "Secrets",
+    },
+
     heading: {
         login: "Login",
+        secrets: "Secrets",
+        events: "Events",
     },
 
     field: {
@@ -21,8 +28,16 @@ export default {
         }
     },
 
-    placeholders: {
+    placeholder: {
         appLoading: "Please wait a little bit",
+
+        noSecrets: {
+            title: "No secrets",
+        },
+
+        noEvents: {
+            title: "No events",
+        }
     },
 
     validation: {

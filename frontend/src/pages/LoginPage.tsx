@@ -1,13 +1,13 @@
 import React, {useState} from "react"
-import {SmallColumns} from "../components/columns";
+import {SmallColumn} from "../components/layout";
 import {LoginForm} from "./loginPage/LoginForm";
-import {LoginFormErrors, LoginFormInput, loginFormSchema} from "../lib/validations";
-import {postLogin} from "../lib/api-client";
+import {login} from "../lib/api-client";
+import {Login_CreateErrors, Login_CreateForm, loginSchema} from "../lib/models/login";
 
 
 export const LoginPage: React.FC = () => {
-    const [loginForm, setLoginForm] = useState<LoginFormInput>({})
-    const [loginErrors, setLoginErrors] = useState<LoginFormErrors>()
+    const [loginForm, setLoginForm] = useState<Partial<Login_CreateForm>>({})
+    const [loginErrors, setLoginErrors] = useState<Login_CreateErrors>()
     const [loginLoading, setLoginLoading] = useState(false)
     const [loginFailed, setLoginFailed] = useState(false)
 
@@ -15,7 +15,7 @@ export const LoginPage: React.FC = () => {
         setLoginFailed(false);
         setLoginErrors(undefined);
 
-        const report = loginFormSchema(loginForm);
+        const report = loginSchema(loginForm);
         if (!report.ok) {
             setLoginErrors(report.error);
             return;
@@ -23,10 +23,8 @@ export const LoginPage: React.FC = () => {
 
         setLoginLoading(true);
 
-        const {email, password, remember} = report.output;
-
         try {
-            await postLogin(email, password, remember)
+            await login(report.output)
 
             window.location.reload();
         } catch (e) {
@@ -36,19 +34,19 @@ export const LoginPage: React.FC = () => {
     }
 
     return (
-        <SmallColumns>
+        <SmallColumn>
             <LoginForm
                 loading={loginLoading}
                 failed={loginFailed}
 
-                form={loginForm}
+                values={loginForm}
                 errors={loginErrors}
 
                 onChange={setLoginForm}
                 onSubmit={handleSubmit}
             />
-        </SmallColumns>
+        </SmallColumn>
     )
 }
 
-
+export default LoginPage;

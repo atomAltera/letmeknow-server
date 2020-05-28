@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
-import {getCurrentUser} from "./api-client";
+import {getCurrentUser, listEvents, listSecrets} from "./api-client";
 
 type Unpromised<P> = P extends Promise<infer T> ? T : P;
 
-interface HookLoading {
+interface HookLoading<T> {
     loading: true;
     error: undefined;
-    result: undefined;
+    result: T;
 }
 
 interface HookLoaded<T> {
@@ -15,19 +15,19 @@ interface HookLoaded<T> {
     result: T;
 }
 
-interface HookError {
+interface HookError<T> {
     loading: false;
     error: string;
-    result: undefined;
+    result: T;
 }
 
-type HookResult<T> = HookLoading | HookLoaded<T> | HookError;
+type HookResult<T, D> = HookLoading<D> | HookLoaded<T> | HookError<D>;
 
 
 export function createApiHookMethod<A extends any[], R extends any>(func: (...args: A) => R) {
-    return function useApiMethod(nonce: number, ...args: A): HookResult<Unpromised<R>> {
+    return function useApiMethod<D>(nonce: number, def: D, ...args: A): HookResult<Unpromised<R>, D> {
         const [loading, setLoading] = useState(true);
-        const [result, setResult] = useState<Unpromised<R>>();
+        const [result, setResult] = useState<Unpromised<R> | D>(def);
         const [error, setError] = useState<string>();
 
         useEffect(() => {
@@ -42,9 +42,13 @@ export function createApiHookMethod<A extends any[], R extends any>(func: (...ar
             loading,
             result,
             error,
-        } as HookResult<Unpromised<R>>
+        } as HookResult<Unpromised<R>, D>
     }
 }
 
 
 export const useCurrentUser = createApiHookMethod(getCurrentUser);
+
+export const useSecretsList = createApiHookMethod(listSecrets);
+
+export const useEventsList = createApiHookMethod(listEvents);

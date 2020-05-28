@@ -20,7 +20,7 @@ export const PageLoadingSpinner = () => {
     return (
         <Wrapper>
             <Spinner size={Spinner.SIZE_LARGE}/>
-            <Caption>{t('placeholders.appLoading')}</Caption>
+            <Caption>{t('placeholder.appLoading')}</Caption>
         </Wrapper>
     )
 }

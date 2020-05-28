@@ -1,16 +1,13 @@
 import React from "react"
 import {useTranslation} from "react-i18next";
-import {Button, Callout, FormGroup, H2, InputGroup, Switch} from "@blueprintjs/core";
+import {Button, Callout, FormGroup, InputGroup, Switch} from "@blueprintjs/core";
 import styled from "styled-components";
 import {changeHandlers, intentFromError, translateErrors} from "../../lib/forms";
-import {LoginFormErrors, LoginFormInput} from "../../lib/validations";
+import {Login_CreateErrors, Login_CreateForm} from "../../lib/models/login";
+import {Heading} from "../../components/Heading";
 
 const Form = styled.form`
   padding: 1em 0;
-`
-
-const Heading = styled(H2)`
-  margin: 1em 0;
 `
 
 export const Alert = styled(Callout)`
@@ -28,10 +25,10 @@ interface Props {
     loading?: boolean;
     failed?: boolean;
 
-    form: LoginFormInput;
-    errors: LoginFormErrors;
+    values: Partial<Login_CreateForm>;
+    errors: Login_CreateErrors;
 
-    onChange: (form: LoginFormInput) => void;
+    onChange: (form: Partial<Login_CreateForm>) => void;
     onSubmit: () => void;
 }
 
@@ -43,7 +40,7 @@ export const LoginForm: React.FC<Props> = (props) => {
     const {
         textChange,
         booleanChange
-    } = changeHandlers(props.form, props.onChange);
+    } = changeHandlers(props.values, props.onChange);
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -51,7 +48,7 @@ export const LoginForm: React.FC<Props> = (props) => {
     }
 
     return (
-        <Form onSubmit={handleSubmit} >
+        <Form onSubmit={handleSubmit}>
             <Heading>{t('heading.login')}</Heading>
 
             {props.failed && (
@@ -73,7 +70,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                     placeholder={t('field.email')}
                     leftIcon="envelope"
                     disabled={props.loading}
-                    value={props.form.email ?? ""}
+                    value={props.values.email ?? ""}
                     onChange={textChange("email")}
                     intent={intentFromError(errors, "email")}
                     autoComplete="email"
@@ -91,7 +88,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                     placeholder={t('field.password')}
                     leftIcon="lock"
                     disabled={props.loading}
-                    value={props.form.password ?? ""}
+                    value={props.values.password ?? ""}
                     onChange={textChange("password")}
                     intent={intentFromError(errors, "password")}
                     autoComplete="current-password"
@@ -103,7 +100,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                 <Switch
                     label={t('field.rememberMe')}
                     disabled={props.loading}
-                    checked={!!props.form.remember}
+                    checked={!!props.values.remember}
                     onChange={booleanChange("remember")}
                     large
                 />
