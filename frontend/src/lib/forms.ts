@@ -11,8 +11,11 @@ export function changeHandlers<T>(obj: T | undefined, updateFunc: (newObj: T) =>
 
     const numberChange = (field: keyof T) =>
         (e: React.ChangeEvent<HTMLInputElement>) => {
-            const numberValue = parseFloat(e.target.value);
-            updateFunc(assoc(field as string, numberValue, obj))
+            let value: number | undefined = parseFloat(e.target.value.trim());
+
+            if (isNaN(value)) value = undefined;
+
+            updateFunc(assoc(field as string, value, obj))
         }
 
     const booleanChange = (field: keyof T) =>

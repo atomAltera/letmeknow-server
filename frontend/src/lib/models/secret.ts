@@ -1,5 +1,5 @@
-import {boolean, ChainError, ChainOutput, shape} from "treat-like";
-import {choices, intAsString, optionalBoolean, requiredString} from "../validators";
+import {ChainError, ChainOutput, check, number, shape} from "treat-like";
+import {choices, optionalBoolean, requiredString} from "../validators";
 
 /**
  * Represents secret kind
@@ -68,7 +68,7 @@ export const partTelegramSecretSchema = shape({
  */
 export const partEmailSecretSchema = shape({
     host: requiredString,
-    port: intAsString,
+    port: number.then(check(x => x > 0 && x < 65536, "invalid_port_number")),
     username: requiredString,
     password: requiredString,
     useSSL: optionalBoolean,

@@ -1,9 +1,10 @@
 import {
     boolean,
-    byDefault, Chain,
+    byDefault,
+    Chain,
     check,
     createContinueResult,
-    createErrorResult, number,
+    createErrorResult,
     Result,
     Step,
     string,

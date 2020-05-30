@@ -58,6 +58,7 @@ export default {
         "not_a_string": "This field is required",
         "required": "This field is required",
         "invalid_choice": "Please select one of options",
-        "not_a_number": "Please enter a number"
+        "not_a_number": "Please enter a number",
+        "invalid_port_number": "Invalid port number",
     }
 }

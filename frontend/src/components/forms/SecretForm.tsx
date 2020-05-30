@@ -35,6 +35,7 @@ export const SecretForm: React.FC<Props> = (props) => {
 
     const {
         textChange,
+        numberChange,
         booleanChange
     } = changeHandlers(props.values, props.onChange);
 
@@ -150,12 +151,12 @@ export const SecretForm: React.FC<Props> = (props) => {
                     >
                         <InputGroup
                             name="port"
-                            type="text"
+                            type="number"
                             placeholder={t('field.port')}
                             leftIcon="console"
                             disabled={props.loading}
                             value={String(props.values.port ?? "")}
-                            onChange={textChange("port")}
+                            onChange={numberChange("port")}
                             intent={intentFromError(errors, "port")}
                             autoComplete="off"
                             large
@@ -236,7 +237,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                         intent="danger"
                         text={t('action.delete')}
                         icon="trash"
-                        loading={props.loading}
+                        disabled={props.loading}
                         onClick={props.onDelete}
                         minimal
                         large
