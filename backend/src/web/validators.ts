@@ -52,32 +52,32 @@ export const registrationSchema = shape({
     password: requiredString,
 });
 
-export const channelCreateSchema = shape({
+export const channelSchema = shape({
     secretId: systemIdSchema,
     template: requiredString,
     isActive: byDefault(true).then(boolean),
 });
 
-export const eventCreateSchema = shape({
+export const eventSchema = shape({
     name: requiredString,
     description: optionalString,
 
     isActive: byDefault(true).then(boolean),
 
-    channels: array(channelCreateSchema),
+    channels: array(channelSchema),
 });
 
-export const baseSecretCreateSchema = shape({
+export const baseSecretSchema = shape({
     name: requiredString,
     kind: choices<SecretKind>("telegram", "email")
 })
 
-export const partTelegramSecretCreateSchema = shape({
+export const partTelegramSecretSchema = shape({
     botSecret: requiredString,
     chatId: requiredString,
 });
 
-export const partEmailSecretCreateSchema = shape({
+export const partEmailSecretSchema = shape({
     host: requiredString,
     port: number,
     username: requiredString,

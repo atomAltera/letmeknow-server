@@ -3,8 +3,7 @@ import {useTranslation} from "react-i18next";
 import {Button, Callout, FormGroup, InputGroup, Switch} from "@blueprintjs/core";
 import styled from "styled-components";
 import {changeHandlers, intentFromError, translateErrors} from "../../lib/forms";
-import {Login_CreateErrors, Login_CreateForm} from "../../lib/models/login";
-import {Heading} from "../../components/Heading";
+import {Login_Errors, Login_Form} from "../../lib/models/login";
 
 const Form = styled.form`
   padding: 1em 0;
@@ -15,6 +14,7 @@ export const Alert = styled(Callout)`
 `
 
 const Actions = styled.div`
+  margin-top: 3em;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -25,10 +25,10 @@ interface Props {
     loading?: boolean;
     failed?: boolean;
 
-    values: Partial<Login_CreateForm>;
-    errors: Login_CreateErrors;
+    values: Partial<Login_Form>;
+    errors: Login_Errors;
 
-    onChange: (form: Partial<Login_CreateForm>) => void;
+    onChange: (form: Partial<Login_Form>) => void;
     onSubmit: () => void;
 }
 
@@ -49,8 +49,6 @@ export const LoginForm: React.FC<Props> = (props) => {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <Heading>{t('heading.login')}</Heading>
-
             {props.failed && (
                 <Alert
                     title={t('alert.loginFailed.heading')}

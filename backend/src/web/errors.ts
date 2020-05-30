@@ -29,3 +29,12 @@ export class AccessError extends Error {
         super("user is not authorized");
     }
 }
+
+/**
+ * Regular not found error
+ */
+export class NotFoundError extends Error {
+    constructor() {
+        super("requested resource was not found");
+    }
+}

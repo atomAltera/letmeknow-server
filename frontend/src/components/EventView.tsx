@@ -26,7 +26,7 @@ export const EventView: React.FC<Props> = (props) => {
     const {event} = props;
 
     return (
-        <Box key={event.id}>
+        <Box>
             <Header>
                 <Name>{event.name}</Name>
                 <Button

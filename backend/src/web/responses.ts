@@ -38,3 +38,12 @@ export function responseWithAccessError(res: Response) {
     })
 }
 
+/**
+ *  Sends "not found" response
+ */
+export function responseWithNotFoundError(res: Response) {
+    res.status(404).json({
+        error: "not found",
+    })
+}
+

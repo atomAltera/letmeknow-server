@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {eventCreateSchema, systemIdSchema, validateBy} from "../validators";
+import {eventSchema, systemIdSchema, validateBy} from "../validators";
 import {authenticate} from "../auth";
 
 
@@ -9,11 +9,9 @@ import {authenticate} from "../auth";
 export async function eventCreateHandler(req: Request, res: Response) {
     const user = await authenticate(req);
 
-    const form = validateBy(req.body, eventCreateSchema);
+    const form = validateBy(req.body, eventSchema);
 
-    const event = await req.core.event.create(user.id, form);
-
-    return event;
+    return await req.core.event.create(user.id, form);
 }
 
 /**
@@ -22,9 +20,7 @@ export async function eventCreateHandler(req: Request, res: Response) {
 export async function eventListHandler(req: Request, res: Response) {
     const user = await authenticate(req);
 
-    const eventList = await req.core.event.list(user.id);
-
-    return eventList;
+    return await req.core.event.list(user.id);
 }
 
 /**

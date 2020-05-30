@@ -9,6 +9,12 @@ export function changeHandlers<T>(obj: T | undefined, updateFunc: (newObj: T) =>
             updateFunc(assoc(field as string, e.target.value, obj))
         }
 
+    const numberChange = (field: keyof T) =>
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const numberValue = parseFloat(e.target.value);
+            updateFunc(assoc(field as string, numberValue, obj))
+        }
+
     const booleanChange = (field: keyof T) =>
         (e: React.ChangeEvent<HTMLInputElement>) => {
             updateFunc(assoc(field as string, e.target.checked, obj))
@@ -16,6 +22,7 @@ export function changeHandlers<T>(obj: T | undefined, updateFunc: (newObj: T) =>
 
     return {
         textChange,
+        numberChange,
         booleanChange,
     }
 }

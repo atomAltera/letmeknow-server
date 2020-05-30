@@ -63,16 +63,16 @@ export interface EmailSecret extends SecretBase {
 
 export type Secret = TelegramSecret | EmailSecret;
 
-interface SecretBase_CreateForm {
+interface SecretBase_Form {
     name: string;
 }
 
-export interface TelegramSecret_CreateForm extends SecretBase_CreateForm {
+export interface TelegramSecret_Form extends SecretBase_Form {
     botSecret: string;
     chatId: string;
 }
 
-export interface EmailSecret_CreateForm extends SecretBase_CreateForm {
+export interface EmailSecret_Form extends SecretBase_Form {
     host: string;
     port: number;
     username: string;
@@ -80,10 +80,6 @@ export interface EmailSecret_CreateForm extends SecretBase_CreateForm {
     useSSL: boolean;
     useTLS: boolean;
 }
-
-export type TelegramSecret_UpdateForm = TelegramSecret_CreateForm;
-
-export type EmailSecret_UpdateForm = EmailSecret_CreateForm;
 
 
 /**
@@ -95,7 +91,7 @@ export async function createSecretAdapter(db: Db) {
     /**
      * Create telegram secret for specified user
      */
-    async function createTelegram(userId: string, form: TelegramSecret_CreateForm): Promise<Secret> {
+    async function createTelegram(userId: string, form: TelegramSecret_Form): Promise<Secret> {
         const doc: Scheme = {
             _id: new ObjectId(),
             createdAt: new Date(),
@@ -116,7 +112,7 @@ export async function createSecretAdapter(db: Db) {
     /**
      * Create email secret for specified user
      */
-    async function createEmail(userId: string, form: EmailSecret_CreateForm): Promise<Secret> {
+    async function createEmail(userId: string, form: EmailSecret_Form): Promise<Secret> {
         const doc: Scheme = {
             _id: new ObjectId(),
             createdAt: new Date(),
@@ -141,16 +137,16 @@ export async function createSecretAdapter(db: Db) {
     /**
      * Update telegram secret of specified user
      */
-    async function editTelegram(userId: string, id: string, form: TelegramSecret_UpdateForm): Promise<void> {
+    async function editTelegram(userId: string, secretId: string, form: TelegramSecret_Form): Promise<void> {
         const filter = {
-            _id: toMongoId(id),
+            _id: toMongoId(secretId),
             userId: toMongoId(userId),
-            kind: "telegram",
         } as Scheme;
 
         const update = {
             $set: {
                 name: form.name,
+                kind: "telegram" as "telegram",
 
                 botSecret: form.botSecret,
                 chatId: form.chatId,
@@ -163,16 +159,16 @@ export async function createSecretAdapter(db: Db) {
     /**
      * Update email secret of specified user
      */
-    async function editEmail(userId: string, id: string, form: EmailSecret_UpdateForm): Promise<void> {
+    async function editEmail(userId: string, secretId: string, form: EmailSecret_Form): Promise<void> {
         const filter = {
-            _id: toMongoId(id),
+            _id: toMongoId(secretId),
             userId: toMongoId(userId),
-            kind: "email",
         } as Scheme;
 
         const update = {
             $set: {
                 name: form.name,
+                kind: "email" as "email",
 
                 host: form.host,
                 port: form.port,
@@ -202,9 +198,10 @@ export async function createSecretAdapter(db: Db) {
     /**
      * Get secret by id
      */
-    async function get(id: string): Maybe<Secret> {
+    async function get(userId: string, secretId: string): Maybe<Secret> {
         const filter = {
-            _id: toMongoId(id)
+            _id: toMongoId(secretId),
+            userId: toMongoId(userId),
         }
 
         const doc = await collection.findOne(filter);
@@ -215,9 +212,9 @@ export async function createSecretAdapter(db: Db) {
     /**
      * Removes secret of specified user
      */
-    async function remove(userId: string, id: string): Promise<void> {
+    async function remove(userId: string, secretId: string): Promise<void> {
         const filter = {
-            _id: toMongoId(id),
+            _id: toMongoId(secretId),
             userId: toMongoId(userId)
         }
 

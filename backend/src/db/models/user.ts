@@ -21,12 +21,10 @@ export interface User {
     email: string;
 }
 
-export interface User_CreateForm {
+export interface User_Form {
     email: string;
     password: string;
 }
-
-export type User_UpdateForm = User_CreateForm;
 
 
 /**
@@ -41,7 +39,7 @@ export async function createUserAdapter(db: Db) {
     /**
      * Creates new user
      */
-    async function create(form: User_CreateForm): Promise<User> {
+    async function create(form: User_Form): Promise<User> {
         const passwordSalt = randomKey();
         const passwordDigest = createPasswordDigest(passwordSalt, form.password);
 

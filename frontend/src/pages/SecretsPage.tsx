@@ -15,7 +15,7 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
     const {
         loading,
         result: secretsList,
-    } = useSecretsList(0, [] as Secret[])
+    } = useSecretsList({def: [] as Secret[]})
 
     if (loading) {
         return <PageLoadingSpinner/>;
@@ -40,6 +40,7 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
 
             {secretsList.map(secret => (
                 <SecretView
+                    key={secret.id}
                     secret={secret}
 
                     onEditClick={() => handleEditClick(secret.id)}

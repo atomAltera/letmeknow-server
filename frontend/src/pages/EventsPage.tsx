@@ -15,7 +15,7 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
     const {
         loading,
         result: eventsList,
-    } = useEventsList(0, [] as Event[])
+    } = useEventsList({def: [] as Event[]})
 
     if (loading) {
         return <PageLoadingSpinner/>;
@@ -40,6 +40,7 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
 
             {eventsList.map(event => (
                 <EventView
+                    key={event.id}
                     event={event}
 
                     onEditClick={() => handleEditClick(event.id)}

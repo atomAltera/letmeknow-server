@@ -59,7 +59,7 @@ export const SecretView: React.FC<BaseProps> = (props) => {
     const Icon = getIconByKind(secret.kind);
 
     return (
-        <Box key={secret.id}>
+        <Box>
             <Header>
                 <Icon/>
                 <Name>{secret.name}</Name>

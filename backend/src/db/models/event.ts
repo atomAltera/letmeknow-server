@@ -13,7 +13,7 @@ interface Scheme {
 
     isActive: boolean;
 
-    channels: {
+    channels?: {
         secretId: ObjectId;
         template: string;
         isActive: boolean;
@@ -37,7 +37,7 @@ export interface Event {
     }[];
 }
 
-export interface Event_CreateForm {
+export interface Event_Form {
     name: string;
     description: string;
 
@@ -50,8 +50,6 @@ export interface Event_CreateForm {
     }[];
 }
 
-export type Event_UpdateForm = Event_CreateForm;
-
 
 /**
  * Creates event model adapter
@@ -62,7 +60,7 @@ export async function createEventAdapter(db: Db) {
     /**
      * Create event for specified user
      */
-    async function create(userId: string, form: Event_CreateForm): Promise<Event> {
+    async function create(userId: string, form: Event_Form): Promise<Event> {
         const doc: Scheme = {
             _id: new ObjectId(),
             createdAt: new Date(),
@@ -88,7 +86,7 @@ export async function createEventAdapter(db: Db) {
     /**
      * Update event of specified user
      */
-    async function edit(userId: string, id: string, form: Event_UpdateForm): Promise<void> {
+    async function edit(userId: string, id: string, form: Event_Form): Promise<void> {
         const filter = {
             _id: toMongoId(id),
             userId: toMongoId(userId)
@@ -183,7 +181,7 @@ function fromDb(doc: Scheme): Event {
 
         isActive: doc.isActive,
 
-        channels: doc.channels.map(c => ({
+        channels: (doc.channels ?? []).map(c => ({
             secretId: fromMongoId(c.secretId),
             template: c.template,
             isActive: c.isActive,

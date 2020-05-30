@@ -4,13 +4,12 @@ import {Core} from "../core";
 import {
     responseWithAccessError,
     responseWithAuthError,
+    responseWithNotFoundError,
     responseWithUnknownError,
     responseWithValidationError
 } from "./responses";
-import {AccessError, AuthError, ValidationError} from "./errors";
+import {AccessError, AuthError, NotFoundError, ValidationError} from "./errors";
 import api from "./api";
-import {User} from "../db";
-import {getLoggedInUserId} from "./auth";
 import {handleHit} from "./hits";
 import {h} from "./utils";
 
@@ -68,8 +67,14 @@ export async function startServer(config: WebConfig): Promise<void> {
             responseWithAuthError(res);
             return;
         }
+
         if (error instanceof AccessError) {
             responseWithAccessError(res);
+            return;
+        }
+
+        if (error instanceof NotFoundError) {
+            responseWithNotFoundError(res);
             return;
         }
 

@@ -50,7 +50,7 @@ export type Secret = TelegramSecret | EmailSecret;
 /**
  * Schema to validate general Secret params
  */
-export const baseSecretCreateSchema = shape({
+export const baseSecretSchema = shape({
     name: requiredString,
     kind: choices<SecretKind>("telegram", "email")
 })
@@ -58,7 +58,7 @@ export const baseSecretCreateSchema = shape({
 /**
  * Schema to validate Telegram specified Secret params
  */
-export const partTelegramSecretCreateSchema = shape({
+export const partTelegramSecretSchema = shape({
     botSecret: requiredString,
     chatId: requiredString,
 });
@@ -66,7 +66,7 @@ export const partTelegramSecretCreateSchema = shape({
 /**
  * Schema to validate email specified Secret params
  */
-export const partEmailSecretCreateSchema = shape({
+export const partEmailSecretSchema = shape({
     host: requiredString,
     port: number,
     username: requiredString,
@@ -78,25 +78,25 @@ export const partEmailSecretCreateSchema = shape({
 /**
  * Telegram specified Secret form types
  */
-export type TelegramSecret_CreateForm =
-    ChainOutput<typeof baseSecretCreateSchema>
-    & ChainOutput<typeof partTelegramSecretCreateSchema>;
-export type TelegramSecret_CreateErrors =
-    (ChainError<typeof baseSecretCreateSchema> & ChainError<typeof partTelegramSecretCreateSchema>)
+export type TelegramSecret_Form =
+    ChainOutput<typeof baseSecretSchema>
+    & ChainOutput<typeof partTelegramSecretSchema>;
+export type TelegramSecret_Errors =
+    (ChainError<typeof baseSecretSchema> & ChainError<typeof partTelegramSecretSchema>)
     | undefined;
 
 /**
  * Email specified Secret form types
  */
-export type EmailSecret_CreateForm =
-    ChainOutput<typeof baseSecretCreateSchema>
-    & ChainOutput<typeof partEmailSecretCreateSchema>;
-export type EmailSecret_CreateErrors =
-    (ChainError<typeof baseSecretCreateSchema> & ChainError<typeof partEmailSecretCreateSchema>)
+export type EmailSecret_Form =
+    ChainOutput<typeof baseSecretSchema>
+    & ChainOutput<typeof partEmailSecretSchema>;
+export type EmailSecret_Errors =
+    (ChainError<typeof baseSecretSchema> & ChainError<typeof partEmailSecretSchema>)
     | undefined;
 
 /**
  * United Secret form types
  */
-export type Secret_CreateForm = TelegramSecret_CreateForm & EmailSecret_CreateForm;
-export type Secret_CreateErrors = TelegramSecret_CreateErrors & EmailSecret_CreateErrors;
+export type Secret_Form = TelegramSecret_Form & EmailSecret_Form;
+export type Secret_Errors = TelegramSecret_Errors & EmailSecret_Errors;

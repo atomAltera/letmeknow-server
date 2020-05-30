@@ -7,6 +7,7 @@ export default {
     heading: {
         login: "Login",
         secrets: "Secrets",
+        secretEdit: "Edit Secret",
         events: "Events",
     },
 

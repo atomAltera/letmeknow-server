@@ -1,13 +1,17 @@
 import React, {useState} from "react"
+import {useTranslation} from "react-i18next";
 import {SmallColumn} from "../components/layout";
-import {LoginForm} from "./loginPage/LoginForm";
+import {LoginForm} from "../components/forms/LoginForm";
 import {login} from "../lib/api-client";
-import {Login_CreateErrors, Login_CreateForm, loginSchema} from "../lib/models/login";
+import {Login_Errors, Login_Form, loginSchema} from "../lib/models/login";
+import {Heading} from "../components/Heading";
 
 
 export const LoginPage: React.FC = () => {
-    const [loginForm, setLoginForm] = useState<Partial<Login_CreateForm>>({})
-    const [loginErrors, setLoginErrors] = useState<Login_CreateErrors>()
+    const [t] = useTranslation();
+
+    const [loginForm, setLoginForm] = useState<Partial<Login_Form>>({})
+    const [loginErrors, setLoginErrors] = useState<Login_Errors>()
     const [loginLoading, setLoginLoading] = useState(false)
     const [loginFailed, setLoginFailed] = useState(false)
 
@@ -35,6 +39,8 @@ export const LoginPage: React.FC = () => {
 
     return (
         <SmallColumn>
+            <Heading>{t('heading.login')}</Heading>
+
             <LoginForm
                 loading={loginLoading}
                 failed={loginFailed}

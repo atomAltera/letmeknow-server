@@ -23,7 +23,7 @@ export interface Hit {
     processedAt?: Date;
 }
 
-export interface Hit_CreateForm {
+export interface Hit_Form {
     payload?: string;
 }
 
@@ -37,7 +37,7 @@ export async function createHitAdapter(db: Db) {
     /**
      * Create hit for specified event and user
      */
-    async function create(userId: string, eventId: string, form: Hit_CreateForm): Promise<Hit> {
+    async function create(userId: string, eventId: string, form: Hit_Form): Promise<Hit> {
         const doc: Scheme = {
             _id: new ObjectId(),
             createdAt: new Date(),

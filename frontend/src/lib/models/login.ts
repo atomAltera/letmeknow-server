@@ -13,7 +13,7 @@ export const loginSchema = shape({
 /**
  * Login form types
  */
-export type Login_CreateForm = ChainOutput<typeof loginSchema>;
-export type Login_CreateErrors = ChainError<typeof loginSchema> | undefined;
+export type Login_Form = ChainOutput<typeof loginSchema>;
+export type Login_Errors = ChainError<typeof loginSchema> | undefined;
 
 

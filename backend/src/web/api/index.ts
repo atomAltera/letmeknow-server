@@ -3,7 +3,13 @@ import {loggedInUserHandler, loginHandler} from "./auth";
 import {registrationHandler} from "./users";
 import {eventCreateHandler, eventListHandler, eventRemoveHandler} from "./events";
 import {h} from "../utils";
-import {secretCreateHandler, secretListHandler, secretRemoveHandler,} from "./secrets";
+import {
+    secretCreateHandler,
+    secretGetHandler,
+    secretListHandler,
+    secretRemoveHandler,
+    secretUpdateHandler,
+} from "./secrets";
 
 
 const api = Router({strict: true});
@@ -23,7 +29,9 @@ api.delete('/api/events/:eventId', h(eventRemoveHandler))
 
 // Secrets management
 api.get('/api/secrets', h(secretListHandler))
+api.get('/api/secrets/:secretId', h(secretGetHandler))
 api.post('/api/secrets', h(secretCreateHandler))
+api.put('/api/secrets/:secretId', h(secretUpdateHandler))
 api.delete('/api/secrets/:secretId', h(secretRemoveHandler))
 
 
