@@ -1,5 +1,4 @@
 import React from "react"
-import {RouterProps, withRouter} from "react-router";
 import {useTranslation} from "react-i18next";
 import {useSecretsList} from "../lib/api-hooks";
 import {PageLoadingSpinner} from "../components/spinners";
@@ -7,9 +6,20 @@ import {Heading} from "../components/Heading";
 import {SecretView} from "../components/SecretView";
 import {Secret} from "../lib/models/secret";
 import {NoDataPage} from "../components/NoDataPage";
+import {Button} from "@blueprintjs/core";
+import {useHistory} from "react-router";
+import styled from "styled-components";
 
+const Actions = styled.div`
+  margin-top: 3em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
 
-const SecretsPage: React.FC<RouterProps> = (props) => {
+const SecretsPage: React.FC = () => {
+    const history = useHistory();
     const [t] = useTranslation();
 
     const {
@@ -30,10 +40,6 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
         )
     }
 
-    const handleEditClick = (secretId: string) => {
-        props.history.push(`/secrets/${secretId}`)
-    }
-
     return (
         <>
             <Heading>{t('heading.secrets')}</Heading>
@@ -42,12 +48,19 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
                 <SecretView
                     key={secret.id}
                     secret={secret}
-
-                    onEditClick={() => handleEditClick(secret.id)}
                 />
             ))}
+
+            <Actions>
+                <Button
+                    intent="primary"
+                    icon="plus"
+                    onClick={() => history.push(`/secrets/new`)}
+                    large
+                >{t('action.createSecret')}</Button>
+            </Actions>
         </>
     )
 };
 
-export default withRouter(SecretsPage);
+export default SecretsPage;

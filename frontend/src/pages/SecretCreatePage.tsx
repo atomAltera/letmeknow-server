@@ -1,8 +1,6 @@
 import React, {useState} from "react"
-import {RouteComponentProps, withRouter} from "react-router";
+import {useHistory} from "react-router";
 import {useTranslation} from "react-i18next";
-import {useSecret} from "../lib/api-hooks";
-import {PageLoadingSpinner} from "../components/spinners";
 import {Heading} from "../components/Heading";
 import {
     baseSecretSchema,
@@ -12,28 +10,15 @@ import {
     Secret_Form
 } from "../lib/models/secret";
 import {SecretForm} from "../components/forms/SecretForm";
-import {deleteSecret, updateSecret} from "../lib/api-client";
+import {createSecret} from "../lib/api-client";
 
-interface Params {
-    secretId: string;
-}
-
-const SecretEditPage: React.FC<RouteComponentProps<Params>> = (props) => {
-    const secretId = props.match.params.secretId;
-
+const SecretCreatePage: React.FC = () => {
+    const history = useHistory();
     const [t] = useTranslation();
 
-    const [secretForm, setSecretForm] = useState<Partial<Secret_Form>>({})
+    const [secretForm, setSecretForm] = useState<Partial<Secret_Form>>({kind: "telegram"})
     const [secretErrors, setSecretErrors] = useState<Secret_Errors>()
     const [secretLoading, setSecretLoading] = useState(false)
-
-    const {
-        loading,
-    } = useSecret({def: undefined, onLoad: setSecretForm}, secretId)
-
-    if (loading) {
-        return <PageLoadingSpinner/>;
-    }
 
     const handleSave = async () => {
         setSecretErrors(undefined);
@@ -61,6 +46,7 @@ const SecretEditPage: React.FC<RouteComponentProps<Params>> = (props) => {
                 const emailReport = partEmailSecretSchema(secretForm);
                 if (!emailReport.ok) {
                     setSecretErrors(emailReport.error as Secret_Errors);
+                    console.log(emailReport.error);
                     return;
                 }
 
@@ -71,21 +57,9 @@ const SecretEditPage: React.FC<RouteComponentProps<Params>> = (props) => {
         setSecretLoading(true);
 
         try {
-            await updateSecret(secretId, form)
+            await createSecret(form)
 
-            props.history.push(`/secrets`)
-        } catch (e) {
-            setSecretLoading(false);
-        }
-    }
-
-    const handleDelete = async () => {
-        setSecretLoading(true);
-
-        try {
-            await deleteSecret(secretId)
-
-            props.history.push(`/secrets`)
+            history.push(`/secrets`)
         } catch (e) {
             setSecretLoading(false);
         }
@@ -93,7 +67,7 @@ const SecretEditPage: React.FC<RouteComponentProps<Params>> = (props) => {
 
     return (
         <>
-            <Heading>{t('heading.secretEdit')}</Heading>
+            <Heading>{t('heading.secretCreate')}</Heading>
 
             <SecretForm
                 loading={secretLoading}
@@ -103,10 +77,9 @@ const SecretEditPage: React.FC<RouteComponentProps<Params>> = (props) => {
 
                 onChange={setSecretForm}
                 onSubmit={handleSave}
-                onDelete={handleDelete}
             />
         </>
     )
 };
 
-export default withRouter(SecretEditPage);
+export default SecretCreatePage;

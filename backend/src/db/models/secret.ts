@@ -190,7 +190,7 @@ export async function createSecretAdapter(db: Db) {
             userId: toMongoId(userId)
         }
 
-        const cursor = collection.find(filter).sort({createdAt: -1});
+        const cursor = collection.find(filter).sort({name: 1});
 
         return listFromCursor(cursor, fromDb);
     }

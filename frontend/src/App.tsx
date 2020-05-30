@@ -7,6 +7,7 @@ import {MainSidebar} from "./components/MainSidebar";
 
 const LoginPage = React.lazy(() => import("./pages/LoginPage"));
 const SecretsPage = React.lazy(() => import("./pages/SecretsPage"));
+const SecretCreatePage = React.lazy(() => import("./pages/SecretCreatePage"));
 const SecretEditPage = React.lazy(() => import("./pages/SecretEditPage"));
 const EventsPage = React.lazy(() => import("./pages/EventsPage"));
 
@@ -42,6 +43,7 @@ function App() {
                             <Route path={'/'} exact><EventsPage/></Route>
 
                             <Route path={'/secrets'} exact><SecretsPage/></Route>
+                            <Route path={'/secrets/new'} exact><SecretCreatePage/></Route>
                             <Route path={'/secrets/:secretId'} exact><SecretEditPage/></Route>
 
                             <Route path={'/events'} exact><EventsPage/></Route>

@@ -8,6 +8,7 @@ export default {
         login: "Login",
         secrets: "Secrets",
         secretEdit: "Edit Secret",
+        secretCreate: "Add New Secret",
         events: "Events",
     },
 
@@ -15,11 +16,23 @@ export default {
         email: "Email",
         password: "Password",
         rememberMe: "Remember me",
+        kind: "Kind",
+        name: "Name",
+        botSecret: "Bot Secret Key",
+        chatId: "Chat ID",
+        host: "Host",
+        port: "Port",
+        username: "Username",
+        useTLS: "Use TLS",
+        useSSL: "Use SSL"
     },
 
     action: {
         submit: "Submit",
         resetPassword: "Reset password",
+        createSecret: "Add New Secret",
+        save: "Save",
+        delete: "Delete",
     },
 
     alert: {
@@ -44,5 +57,7 @@ export default {
     validation: {
         "not_a_string": "This field is required",
         "required": "This field is required",
+        "invalid_choice": "Please select one of options",
+        "not_a_number": "Please enter a number"
     }
 }

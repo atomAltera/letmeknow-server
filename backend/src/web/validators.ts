@@ -21,7 +21,7 @@ const choices = <T extends any>(...args: T[]) => treat((value: T) => {
     if (args.includes(value)) {
         return createContinueResult(value);
     } else {
-        return createErrorResult("invalid_value");
+        return createErrorResult("invalid_choice");
     }
 })
 
@@ -82,6 +82,6 @@ export const partEmailSecretSchema = shape({
     port: number,
     username: requiredString,
     password: requiredString,
-    useSSL: boolean,
-    useTLS: boolean,
+    useSSL: byDefault(false).then(boolean),
+    useTLS: byDefault(false).then(boolean),
 });

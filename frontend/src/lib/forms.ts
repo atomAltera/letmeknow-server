@@ -45,5 +45,5 @@ export function translateErrors<T extends any>(errors: T, t: TFunction): T {
 export function intentFromError<T>(error: T | undefined, key: keyof T): Intent {
     if (error === undefined) return "none";
 
-    return (error[key] === undefined) ? "success" : "danger";
+    return (error[key] === undefined) ? "none" : "danger";
 }

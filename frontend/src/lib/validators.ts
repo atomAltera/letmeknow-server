@@ -3,7 +3,7 @@ import {
     byDefault, Chain,
     check,
     createContinueResult,
-    createErrorResult,
+    createErrorResult, number,
     Result,
     Step,
     string,
@@ -15,12 +15,15 @@ export * from "treat-like";
 export const requiredString = string.then(check(x => x.length > 0, "required"));
 export const optionalString = byDefault("").then(string);
 export const optionalBoolean = byDefault(false).then(boolean);
+export const intAsString = string
+    .then(x => createContinueResult(parseInt(x)))
+    .then(check(x => !isNaN(x), "not_a_number"))
 
 export const choices = <T extends any>(...args: T[]) => treat((value: T) => {
     if (args.includes(value)) {
         return createContinueResult(value);
     } else {
-        return createErrorResult("invalid_value");
+        return createErrorResult("invalid_choice");
     }
 })
 

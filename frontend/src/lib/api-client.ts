@@ -88,3 +88,12 @@ export function createSecret(form: Secret_Form) {
 export function updateSecret(secretId: string, form: Secret_Form) {
     return put<Secret>(`/api/secrets/${secretId}`, form)
 }
+
+/**
+ * Delete secret by id
+ */
+export function deleteSecret(secretId: string) {
+    return remove<Secret>(`/api/secrets/${secretId}`)
+}
+
+

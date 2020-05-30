@@ -25,6 +25,7 @@ interface Props {
 
     onChange: (form: Partial<Secret_Form>) => void;
     onSubmit: () => void;
+    onDelete?: () => void;
 }
 
 export const SecretForm: React.FC<Props> = (props) => {
@@ -34,7 +35,6 @@ export const SecretForm: React.FC<Props> = (props) => {
 
     const {
         textChange,
-        numberChange,
         booleanChange
     } = changeHandlers(props.values, props.onChange);
 
@@ -150,12 +150,12 @@ export const SecretForm: React.FC<Props> = (props) => {
                     >
                         <InputGroup
                             name="port"
-                            type="number"
+                            type="text"
                             placeholder={t('field.port')}
-                            leftIcon="chat"
+                            leftIcon="console"
                             disabled={props.loading}
-                            value={String(props.values.port)}
-                            onChange={numberChange("port")}
+                            value={String(props.values.port ?? "")}
+                            onChange={textChange("port")}
                             intent={intentFromError(errors, "port")}
                             autoComplete="off"
                             large
@@ -188,7 +188,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                     >
                         <InputGroup
                             name="password"
-                            type="password"
+                            type="text"
                             placeholder={t('field.password')}
                             leftIcon="lock"
                             disabled={props.loading}
@@ -225,10 +225,23 @@ export const SecretForm: React.FC<Props> = (props) => {
                 <Button
                     intent="primary"
                     text={t('action.save')}
+                    icon="floppy-disk"
                     loading={props.loading}
                     type="submit"
                     large
                 />
+
+                {props.onDelete && (
+                    <Button
+                        intent="danger"
+                        text={t('action.delete')}
+                        icon="trash"
+                        loading={props.loading}
+                        onClick={props.onDelete}
+                        minimal
+                        large
+                    />
+                )}
 
             </Actions>
 
