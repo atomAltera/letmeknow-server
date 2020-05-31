@@ -11,6 +11,7 @@ import {
 } from "../lib/models/secret";
 import {SecretForm} from "../components/forms/SecretForm";
 import {createSecret} from "../lib/api-client";
+import {notifySuccess} from "../lib/toaster";
 
 const SecretCreatePage: React.FC = () => {
     const history = useHistory();
@@ -58,6 +59,8 @@ const SecretCreatePage: React.FC = () => {
 
         try {
             await createSecret(form)
+
+            notifySuccess(t('notification.secretCreated'))
 
             history.push(`/secrets`)
         } catch (e) {

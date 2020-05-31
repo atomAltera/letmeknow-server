@@ -25,12 +25,12 @@ const choices = <T extends any>(...args: T[]) => treat((value: T) => {
     }
 })
 
-export function validateBy<CO, SO>(input: unknown, schema: Chain<any, CO, SO, any>): CO | SO {
+export function validateBy<CO, SO>(input: unknown, schema: Chain<any, CO, SO, any>, error?: Error): CO | SO {
     const report = schema(input);
 
     if (report.ok) return report.output;
 
-    throw new ValidationError(report.error);
+    throw error || new ValidationError(report.error);
 }
 
 export const systemIdSchema = requiredString.then(value => {
@@ -68,16 +68,19 @@ export const eventSchema = shape({
 });
 
 export const baseSecretSchema = shape({
-    name: requiredString,
     kind: choices<SecretKind>("telegram", "email")
 })
 
 export const partTelegramSecretSchema = shape({
+    name: requiredString,
+
     botSecret: requiredString,
     chatId: requiredString,
 });
 
 export const partEmailSecretSchema = shape({
+    name: requiredString,
+
     host: requiredString,
     port: number,
     username: requiredString,

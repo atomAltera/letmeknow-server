@@ -5,7 +5,7 @@ import {PageLoadingSpinner} from "../components/spinners";
 import {Heading} from "../components/Heading";
 import {SecretView} from "../components/SecretView";
 import {Secret} from "../lib/models/secret";
-import {NoDataPage} from "../components/NoDataPage";
+import {NoDataView} from "../components/NoDataView";
 import {Button} from "@blueprintjs/core";
 import {useHistory} from "react-router";
 import styled from "styled-components";
@@ -33,7 +33,7 @@ const SecretsPage: React.FC = () => {
 
     if (secretsList.length === 0) {
         return (
-            <NoDataPage
+            <NoDataView
                 title={t('heading.secrets')}
                 placeholderTitle={t('placeholder.noSecrets.title')}
             />

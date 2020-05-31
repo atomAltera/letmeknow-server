@@ -31,6 +31,7 @@ interface HookOptions<R, D> {
 
 export function createApiHookMethod<A extends any[], R extends any>(func: (...args: A) => Promise<R>) {
     return function useApiMethod<D>(options: HookOptions<R, D>, ...args: A): HookResult<R, D> {
+
         const [loading, setLoading] = useState(true);
         const [result, setResult] = useState<R | D>(options.def);
         const [error, setError] = useState<string>();

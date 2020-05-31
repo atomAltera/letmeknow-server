@@ -4,7 +4,7 @@ import {RouterProps, withRouter} from "react-router";
 import {useEventsList} from "../lib/api-hooks";
 import {PageLoadingSpinner} from "../components/spinners";
 import {Heading} from "../components/Heading";
-import {NoDataPage} from "../components/NoDataPage";
+import {NoDataView} from "../components/NoDataView";
 import {Event} from "../lib/models/event";
 import {EventView} from "../components/EventView";
 
@@ -23,7 +23,7 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
 
     if (eventsList.length === 0) {
         return (
-            <NoDataPage
+            <NoDataView
                 title={t('heading.events')}
                 placeholderTitle={t('placeholder.noEvents.title')}
             />

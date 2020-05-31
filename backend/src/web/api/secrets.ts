@@ -2,13 +2,13 @@ import {Request, Response} from "express";
 import {
     baseSecretSchema,
     partEmailSecretSchema,
-    systemIdSchema,
     partTelegramSecretSchema,
+    systemIdSchema,
     validateBy
 } from "../validators";
 import {authenticate} from "../auth";
 import {Secret} from "../../db/models/secret";
-import {NotFoundError} from "../errors";
+import {notFoundError} from "../errors";
 
 
 /**
@@ -39,7 +39,7 @@ export async function secretCreateHandler(req: Request, res: Response) {
  * Handles secret update
  */
 export async function secretUpdateHandler(req: Request, res: Response) {
-    const secretId = validateBy(req.params.secretId, systemIdSchema);
+    const secretId = validateBy(req.params.secretId, systemIdSchema, notFoundError);
     const user = await authenticate(req);
 
     const base = validateBy(req.body, baseSecretSchema);
@@ -70,12 +70,12 @@ export async function secretListHandler(req: Request, res: Response) {
  * Handles secrets get request
  */
 export async function secretGetHandler(req: Request, res: Response) {
-    const secretId = validateBy(req.params.secretId, systemIdSchema);
+    const secretId = validateBy(req.params.secretId, systemIdSchema, notFoundError);
     const user = await authenticate(req);
 
     const secret = await req.core.secret.get(user.id, secretId);
 
-    if (!secret) throw new NotFoundError();
+    if (!secret) throw notFoundError;
 
     return secret
 }
@@ -84,7 +84,7 @@ export async function secretGetHandler(req: Request, res: Response) {
  * Handles secrets remove request
  */
 export async function secretRemoveHandler(req: Request<{ secretId: string }>, res: Response) {
-    const secretId = validateBy(req.params.secretId, systemIdSchema);
+    const secretId = validateBy(req.params.secretId, systemIdSchema, notFoundError);
     const user = await authenticate(req);
 
     await req.core.secret.remove(user.id, secretId);

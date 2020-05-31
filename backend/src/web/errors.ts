@@ -38,3 +38,5 @@ export class NotFoundError extends Error {
         super("requested resource was not found");
     }
 }
+
+export const notFoundError = new NotFoundError();

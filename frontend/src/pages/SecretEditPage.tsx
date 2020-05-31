@@ -13,6 +13,8 @@ import {
 } from "../lib/models/secret";
 import {SecretForm} from "../components/forms/SecretForm";
 import {deleteSecret, updateSecret} from "../lib/api-client";
+import {ErrorView} from "../components/error-views";
+import {notifySuccess, notifyWarning} from "../lib/toaster";
 
 interface Params {
     secretId: string;
@@ -29,10 +31,15 @@ const SecretEditPage: React.FC<RouteComponentProps<Params>> = (props) => {
 
     const {
         loading,
+        error,
     } = useSecret({def: undefined, onLoad: setSecretForm}, secretId)
 
     if (loading) {
         return <PageLoadingSpinner/>;
+    }
+
+    if (error) {
+        return <ErrorView error={error}/>
     }
 
     const handleSave = async () => {
@@ -71,9 +78,11 @@ const SecretEditPage: React.FC<RouteComponentProps<Params>> = (props) => {
         setSecretLoading(true);
 
         try {
-            await updateSecret(secretId, form)
+            await updateSecret(secretId, form);
 
-            props.history.push(`/secrets`)
+            notifySuccess(t('notification.secretUpdated'))
+
+            props.history.push(`/secrets`);
         } catch (e) {
             setSecretLoading(false);
         }
@@ -84,6 +93,8 @@ const SecretEditPage: React.FC<RouteComponentProps<Params>> = (props) => {
 
         try {
             await deleteSecret(secretId)
+
+            notifyWarning(t('notification.secretDeleted'))
 
             props.history.push(`/secrets`)
         } catch (e) {

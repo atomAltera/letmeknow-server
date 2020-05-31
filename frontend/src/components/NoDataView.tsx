@@ -8,7 +8,7 @@ interface Props {
     placeholderDescription?: string;
 }
 
-export const NoDataPage: React.FC<Props> = (props) => {
+export const NoDataView: React.FC<Props> = (props) => {
     return (
         <>
             <Heading>{props.title}</Heading>

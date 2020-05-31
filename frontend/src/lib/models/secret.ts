@@ -51,7 +51,6 @@ export type Secret = TelegramSecret | EmailSecret;
  * Schema to validate general Secret params
  */
 export const baseSecretSchema = shape({
-    name: requiredString,
     kind: choices<SecretKind>("telegram", "email")
 })
 
@@ -59,6 +58,8 @@ export const baseSecretSchema = shape({
  * Schema to validate Telegram specified Secret params
  */
 export const partTelegramSecretSchema = shape({
+    name: requiredString,
+
     botSecret: requiredString,
     chatId: requiredString,
 });
@@ -67,6 +68,8 @@ export const partTelegramSecretSchema = shape({
  * Schema to validate email specified Secret params
  */
 export const partEmailSecretSchema = shape({
+    name: requiredString,
+
     host: requiredString,
     port: number.then(check(x => x > 0 && x < 65536, "invalid_port_number")),
     username: requiredString,
@@ -81,6 +84,7 @@ export const partEmailSecretSchema = shape({
 export type TelegramSecret_Form =
     ChainOutput<typeof baseSecretSchema>
     & ChainOutput<typeof partTelegramSecretSchema>;
+
 export type TelegramSecret_Errors =
     (ChainError<typeof baseSecretSchema> & ChainError<typeof partTelegramSecretSchema>)
     | undefined;
@@ -91,6 +95,7 @@ export type TelegramSecret_Errors =
 export type EmailSecret_Form =
     ChainOutput<typeof baseSecretSchema>
     & ChainOutput<typeof partEmailSecretSchema>;
+
 export type EmailSecret_Errors =
     (ChainError<typeof baseSecretSchema> & ChainError<typeof partEmailSecretSchema>)
     | undefined;

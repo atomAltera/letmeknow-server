@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import {eventSchema, systemIdSchema, validateBy} from "../validators";
 import {authenticate} from "../auth";
+import {notFoundError} from "../errors";
 
 
 /**
@@ -27,7 +28,7 @@ export async function eventListHandler(req: Request, res: Response) {
  * Handles events remove request
  */
 export async function eventRemoveHandler(req: Request<{eventId: string}>, res: Response) {
-    const eventId = validateBy(req.params.eventId, systemIdSchema);
+    const eventId = validateBy(req.params.eventId, systemIdSchema, notFoundError);
     const user = await authenticate(req);
 
     await req.core.event.remove(user.id, eventId);

@@ -10,6 +10,7 @@ export default {
         secretEdit: "Edit Secret",
         secretCreate: "Add New Secret",
         events: "Events",
+        error: "Error",
     },
 
     field: {
@@ -60,5 +61,15 @@ export default {
         "invalid_choice": "Please select one of options",
         "not_a_number": "Please enter a number",
         "invalid_port_number": "Invalid port number",
+    },
+
+    error: {
+      resource_not_found: "Requested resource not found",
+    },
+
+    notification: {
+        secretCreated: "Secret has been created",
+        secretUpdated: "Secret has been updated",
+        secretDeleted: "Secret has been deleted",
     }
 }

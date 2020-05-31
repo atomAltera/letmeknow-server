@@ -1,9 +1,10 @@
 import React, {Suspense} from 'react';
-import {BrowserRouter, Route, Switch} from "react-router-dom"
+import {BrowserRouter, Route, Router, Switch} from "react-router-dom"
 import {useCurrentUser} from "./lib/api-hooks";
 import {PageLoadingSpinner} from "./components/spinners";
 import {Main, SidebarLayout} from "./components/layout";
 import {MainSidebar} from "./components/MainSidebar";
+import {NotFoundErrorView} from "./components/error-views"
 
 const LoginPage = React.lazy(() => import("./pages/LoginPage"));
 const SecretsPage = React.lazy(() => import("./pages/SecretsPage"));
@@ -47,6 +48,11 @@ function App() {
                             <Route path={'/secrets/:secretId'} exact><SecretEditPage/></Route>
 
                             <Route path={'/events'} exact><EventsPage/></Route>
+
+                            <Route path={'/events'} exact><EventsPage/></Route>
+
+                            {/* 404 page */}
+                            <Route><NotFoundErrorView/></Route>
                         </Switch>
                     </Suspense>
 
