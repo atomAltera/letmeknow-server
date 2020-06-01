@@ -11,6 +11,7 @@ export default {
         secretCreate: "Add New Secret",
         events: "Events",
         error: "Error",
+        channel: "Channel #{{number}}"
     },
 
     field: {
@@ -25,15 +26,23 @@ export default {
         port: "Port",
         username: "Username",
         useTLS: "Use TLS",
-        useSSL: "Use SSL"
+        useSSL: "Use SSL",
+        key: "Reference Key",
+        isActive: "Is Active",
+        template: "Template",
+        secret: "Secret",
+        description: "Description",
+        channels: "Channels",
     },
 
     action: {
         submit: "Submit",
         resetPassword: "Reset password",
         createSecret: "Add New Secret",
+        createEvent: "Add New Event",
         save: "Save",
         delete: "Delete",
+        addChannel: "Add Channel",
     },
 
     alert: {
@@ -45,6 +54,7 @@ export default {
 
     placeholder: {
         appLoading: "Please wait a little bit",
+        selectSecret: "Select Secret",
 
         noSecrets: {
             title: "No secrets",
@@ -61,6 +71,7 @@ export default {
         "invalid_choice": "Please select one of options",
         "not_a_number": "Please enter a number",
         "invalid_port_number": "Invalid port number",
+        "no_channels_provided": "Please add at least one channel",
     },
 
     error: {
@@ -68,6 +79,10 @@ export default {
     },
 
     notification: {
+        eventCreated: "Event has been created",
+        eventUpdated: "Event has been updated",
+        eventDeleted: "Event has been deleted",
+
         secretCreated: "Secret has been created",
         secretUpdated: "Secret has been updated",
         secretDeleted: "Secret has been deleted",

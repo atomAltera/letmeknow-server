@@ -9,9 +9,9 @@ export function initEventsLogic(db: Database) {
     /**
      * Register event hit
      */
-    async function registerHit(eventId: string, payload: string | undefined) {
-        const event = await db.event.get(eventId);
-        if (!event) throw new Error(`Event with id "${eventId}" not found in database`);
+    async function registerHit(key: string, payload: string | undefined) {
+        const event = await db.event.getByKey(key);
+        if (!event) throw new Error(`Event with key "${key}" not found in database`);
 
         await db.hit.create(event.userId, event.id, {
             payload
@@ -22,7 +22,7 @@ export function initEventsLogic(db: Database) {
      * Removes event of specified user
      */
     function remove(userId: string, id: string): Promise<void> {
-        // TODO: Remove all associated objects too
+        // TODO: Remove all associated hits too
         return db.event.remove(userId, id);
     }
 

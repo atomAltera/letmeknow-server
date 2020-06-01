@@ -1,7 +1,5 @@
 import {useEffect, useState} from "react";
-import {getCurrentUser, getSecret, listEvents, listSecrets} from "./api-client";
-
-// type Unpromised<P> = P extends Promise<infer T> ? T : P;
+import {getCurrentUser, getEvent, getSecret, listEvents, listSecrets} from "./api-client";
 
 interface HookLoading<T> {
     loading: true;
@@ -29,6 +27,9 @@ interface HookOptions<R, D> {
     onLoad?: (value: R) => void
 }
 
+/**
+ * Takes async function and return hook for it
+ */
 export function createApiHookMethod<A extends any[], R extends any>(func: (...args: A) => Promise<R>) {
     return function useApiMethod<D>(options: HookOptions<R, D>, ...args: A): HookResult<R, D> {
 
@@ -55,10 +56,15 @@ export function createApiHookMethod<A extends any[], R extends any>(func: (...ar
     }
 }
 
-
+// Auth
 export const useCurrentUser = createApiHookMethod(getCurrentUser);
 
+// Events
+export const useEventsList = createApiHookMethod(listEvents);
+export const useEvent = createApiHookMethod(getEvent);
+
+// Secrets
 export const useSecretsList = createApiHookMethod(listSecrets);
 export const useSecret = createApiHookMethod(getSecret);
 
-export const useEventsList = createApiHookMethod(listEvents);
+

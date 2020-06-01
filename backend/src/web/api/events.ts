@@ -16,12 +16,34 @@ export async function eventCreateHandler(req: Request, res: Response) {
 }
 
 /**
+ * Handles events update
+ */
+export async function eventUpdateHandler(req: Request, res: Response) {
+    const eventId = validateBy(req.params.eventId, systemIdSchema, notFoundError);
+    const user = await authenticate(req);
+
+    const form = validateBy(req.body, eventSchema);
+
+    return await req.core.event.edit(user.id, eventId, form);
+}
+
+/**
  * Handles events list request
  */
 export async function eventListHandler(req: Request, res: Response) {
     const user = await authenticate(req);
 
     return await req.core.event.list(user.id);
+}
+
+/**
+ * Handles event get request
+ */
+export async function eventGetHandler(req: Request, res: Response) {
+    const eventId = validateBy(req.params.eventId, systemIdSchema, notFoundError);
+    const user = await authenticate(req);
+
+    return await req.core.event.get(user.id, eventId);
 }
 
 /**

@@ -59,6 +59,7 @@ export const channelSchema = shape({
 });
 
 export const eventSchema = shape({
+    key: requiredString,
     name: requiredString,
     description: optionalString,
 

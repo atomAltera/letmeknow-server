@@ -239,7 +239,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                         icon="trash"
                         disabled={props.loading}
                         onClick={props.onDelete}
-                        minimal
+                        outlined
                         large
                     />
                 )}

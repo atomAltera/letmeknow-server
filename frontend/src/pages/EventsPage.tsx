@@ -1,15 +1,25 @@
 import React from "react"
 import {useTranslation} from "react-i18next";
-import {RouterProps, withRouter} from "react-router";
+import {useHistory} from "react-router";
 import {useEventsList} from "../lib/api-hooks";
 import {PageLoadingSpinner} from "../components/spinners";
 import {Heading} from "../components/Heading";
 import {NoDataView} from "../components/NoDataView";
 import {Event} from "../lib/models/event";
 import {EventView} from "../components/EventView";
+import {Button} from "@blueprintjs/core";
+import styled from "styled-components";
 
+const Actions = styled.div`
+  margin-top: 3em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
 
-const SecretsPage: React.FC<RouterProps> = (props) => {
+const EventsPage: React.FC = () => {
+    const history = useHistory();
     const [t] = useTranslation();
 
     const {
@@ -30,10 +40,6 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
         )
     }
 
-    const handleEditClick = (eventId: string) => {
-        props.history.push(`/events/${eventId}`)
-    }
-
     return (
         <>
             <Heading>{t('heading.events')}</Heading>
@@ -42,12 +48,19 @@ const SecretsPage: React.FC<RouterProps> = (props) => {
                 <EventView
                     key={event.id}
                     event={event}
-
-                    onEditClick={() => handleEditClick(event.id)}
                 />
             ))}
+
+            <Actions>
+                <Button
+                    intent="primary"
+                    icon="plus"
+                    onClick={() => history.push(`/events/new`)}
+                    large
+                >{t('action.createEvent')}</Button>
+            </Actions>
         </>
     )
 };
 
-export default withRouter(SecretsPage);
+export default EventsPage;

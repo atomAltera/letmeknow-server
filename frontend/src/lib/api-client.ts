@@ -3,7 +3,9 @@ import {Login_Form} from "./models/login";
 import {User} from "./models/user";
 import {Secret, Secret_Form} from "./models/secret";
 import {Event} from "./models/event";
+import {Event_Form} from "../../../backend/src/db/models/event";
 
+// General
 /**
  * Run GET request to path with provided *query*
  */
@@ -40,6 +42,7 @@ async function remove<T>(path: string) {
     return resp.data;
 }
 
+// Auth
 /**
  * Request current logged in user
  */
@@ -54,6 +57,7 @@ export function login(form: Login_Form) {
     return post<User>('/api/auth', form);
 }
 
+// Events
 /**
  * List events of current user
  */
@@ -61,6 +65,35 @@ export function listEvents() {
     return get<Event[]>('/api/events')
 }
 
+/**
+ * Get event by id of current user
+ */
+export function getEvent(eventId: string) {
+    return get<Event>(`/api/events/${eventId}`)
+}
+
+/**
+ * Creates event and return it
+ */
+export function createEvent(form: Event_Form) {
+    return post<Event>('/api/events', form)
+}
+
+/**
+ * Update event by id
+ */
+export function updateEvent(eventId: string, form: Event_Form) {
+    return put<Event>(`/api/events/${eventId}`, form)
+}
+
+/**
+ * Delete event by id
+ */
+export function deleteEvent(eventId: string) {
+    return remove<Event>(`/api/events/${eventId}`)
+}
+
+// Secrets
 /**
  * List secrets of current user
  */

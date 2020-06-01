@@ -1,15 +1,4 @@
-import {
-    boolean,
-    byDefault,
-    Chain,
-    check,
-    createContinueResult,
-    createErrorResult,
-    Result,
-    Step,
-    string,
-    treat
-} from "treat-like";
+import {boolean, byDefault, check, createContinueResult, createErrorResult, string, treat} from "treat-like";
 
 export * from "treat-like";
 
@@ -28,16 +17,10 @@ export const choices = <T extends any>(...args: T[]) => treat((value: T) => {
     }
 })
 
-type Predicate<T> = (value: T) => boolean;
-
-export const cond = <I, CO1, CO2, SO1, SO2, E1, E2>(
-    pred: Predicate<I>,
-    stepTrue: Step<I, CO1, SO1, E1>,
-    stepFalse: Step<I, CO2, SO2, E2>
-): Chain<I, CO1 | CO2, SO1 | SO2, E1 | E2>  => treat((value: I): Result<CO1 | CO2, SO1 | SO2, E1 | E2> => {
-    if (pred(value)) {
-        return stepTrue(value)
+export const systemIdSchema = requiredString.then(value => {
+    if (value.match(/^[a-f0-9]{24}$/i)) {
+        return createContinueResult(value);
     } else {
-        return stepFalse(value)
+        return createErrorResult("not_valid_id");
     }
 })

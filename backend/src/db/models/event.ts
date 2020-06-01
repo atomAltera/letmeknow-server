@@ -8,6 +8,7 @@ interface Scheme {
     createdAt: Date;
     userId: ObjectId;
 
+    key: string;
     name: string;
     description: string;
 
@@ -25,6 +26,7 @@ export interface Event {
     createdAt: Date;
     userId: string;
 
+    key: string;
     name: string;
     description: string;
 
@@ -38,6 +40,7 @@ export interface Event {
 }
 
 export interface Event_Form {
+    key: string;
     name: string;
     description: string;
 
@@ -66,6 +69,7 @@ export async function createEventAdapter(db: Db) {
             createdAt: new Date(),
             userId: toMongoId(userId),
 
+            key: form.key,
             name: form.name,
             description: form.description,
 
@@ -94,6 +98,7 @@ export async function createEventAdapter(db: Db) {
 
         const update = {
             $set: {
+                key: form.key,
                 name: form.name,
                 description: form.description,
 
@@ -124,11 +129,24 @@ export async function createEventAdapter(db: Db) {
     }
 
     /**
-     * Get event by id
+     * Get event of specified user by id
      */
-    async function get(id: string): Maybe<Event> {
+    async function get(userId: string, eventId: string): Maybe<Event> {
         const filter = {
-            _id: toMongoId(id)
+            _id: toMongoId(eventId)
+        }
+
+        const doc = await collection.findOne(filter);
+
+        return doc ? fromDb(doc) : undefined;
+    }
+
+    /**
+     * Get event by key
+     */
+    async function getByKey(key: string): Maybe<Event> {
+        const filter = {
+            key,
         }
 
         const doc = await collection.findOne(filter);
@@ -139,9 +157,9 @@ export async function createEventAdapter(db: Db) {
     /**
      * Removes event of specified user
      */
-    async function remove(userId: string, id: string): Promise<void> {
+    async function remove(userId: string, secretId: string): Promise<void> {
         const filter = {
-            _id: toMongoId(id),
+            _id: toMongoId(secretId),
             userId: toMongoId(userId)
         }
 
@@ -164,6 +182,7 @@ export async function createEventAdapter(db: Db) {
         edit,
         list,
         get,
+        getByKey,
         remove,
         removeAll,
     }
@@ -176,6 +195,7 @@ function fromDb(doc: Scheme): Event {
         createdAt: doc.createdAt,
         userId: fromMongoId(doc.userId),
 
+        key: doc.key,
         name: doc.name,
         description: doc.description,
 

@@ -1,7 +1,7 @@
 import {Router} from "express";
 import {loggedInUserHandler, loginHandler} from "./auth";
 import {registrationHandler} from "./users";
-import {eventCreateHandler, eventListHandler, eventRemoveHandler} from "./events";
+import {eventCreateHandler, eventGetHandler, eventListHandler, eventRemoveHandler, eventUpdateHandler} from "./events";
 import {h} from "../utils";
 import {
     secretCreateHandler,
@@ -24,7 +24,9 @@ api.post('/api/users', h(registrationHandler))
 
 // Events management
 api.get('/api/events', h(eventListHandler))
+api.get('/api/events/:eventId', h(eventGetHandler))
 api.post('/api/events', h(eventCreateHandler))
+api.put('/api/events/:eventId', h(eventUpdateHandler))
 api.delete('/api/events/:eventId', h(eventRemoveHandler))
 
 // Secrets management

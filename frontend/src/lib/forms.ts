@@ -1,11 +1,11 @@
-import {assoc, map} from "ramda"
+import {assoc, map, update} from "ramda"
 import {TFunction} from "i18next";
 import React from "react";
 import {Intent} from "@blueprintjs/core";
 
 export function changeHandlers<T>(obj: T | undefined, updateFunc: (newObj: T) => any) {
     const textChange = (field: keyof T) =>
-        (e: React.ChangeEvent<HTMLInputElement>) => {
+        (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             updateFunc(assoc(field as string, e.target.value, obj))
         }
 
@@ -23,10 +23,31 @@ export function changeHandlers<T>(obj: T | undefined, updateFunc: (newObj: T) =>
             updateFunc(assoc(field as string, e.target.checked, obj))
         }
 
+    const modelChange = <M extends { id: string }>(field: keyof T) =>
+        (model: M) => updateFunc(assoc(field as string, model.id, obj))
+
+
+    const arrayItemChange = <V>(field: keyof T, index: number) =>
+        (value: V) => {
+
+            let newArray: any[];
+
+            if (!obj) {
+                newArray = [value,]
+            } else {
+                const oldArray = obj[field] as any as any[];
+                newArray = update(index, value, oldArray)
+            }
+
+            updateFunc(assoc(field as string, newArray, obj))
+        }
+
     return {
         textChange,
         numberChange,
         booleanChange,
+        modelChange,
+        arrayItemChange,
     }
 }
 
@@ -42,7 +63,6 @@ export function translateErrors<T extends any>(errors: T, t: TFunction): T {
 
     return errors;
 }
-
 
 
 export function intentFromError<T>(error: T | undefined, key: keyof T): Intent {
