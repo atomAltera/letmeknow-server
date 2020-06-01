@@ -24,3 +24,11 @@ export const systemIdSchema = requiredString.then(value => {
         return createErrorResult("not_valid_id");
     }
 })
+
+export const eventKeySchema = requiredString.then(value => {
+    if (value.match(/^[a-z0-9_-]{4,32}$/i)) {
+        return createContinueResult(value);
+    } else {
+        return createErrorResult("not_valid_key");
+    }
+});

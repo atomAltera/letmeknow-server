@@ -9,6 +9,10 @@ interface Scheme {
 
     payload?: string;
 
+    lastProcessAttemptAt?: Date;
+    failedAttemptsCount: number;
+    errors: {message: string, date: Date}[];
+
     processedAt?: Date;
 }
 
@@ -19,6 +23,10 @@ export interface Hit {
     eventId: string;
 
     payload?: string;
+
+    lastProcessAttemptAt?: Date;
+    failedAttemptsCount: number;
+    errors: {message: string, date: Date}[];
 
     processedAt?: Date;
 }
@@ -46,6 +54,10 @@ export async function createHitAdapter(db: Db) {
 
             payload: form.payload,
 
+            lastProcessAttemptAt: undefined,
+            failedAttemptsCount: 0,
+            errors: [],
+
             processedAt: undefined,
         }
 
@@ -55,17 +67,57 @@ export async function createHitAdapter(db: Db) {
     }
 
     /**
-     * List hits of specified user and event
+     * List hits that are to be processed
      */
-    function list(userId: string, eventId: string): Promise<Hit[]> {
+    function listPending(lastAttemptThreshold: Date, maxFailedAttempts: number): Promise<Hit[]> {
         const filter = {
-            userId: toMongoId(userId),
-            eventId: toMongoId(eventId),
+            $or: [
+                {lastProcessAttemptAt: undefined},
+                {lastProcessAttemptAt: {$lte: lastAttemptThreshold}},
+            ],
+            processedAt: undefined,
+            failedAttemptsCount: {$lt: maxFailedAttempts},
         }
 
         const cursor = collection.find(filter).sort({createdAt: -1});
 
         return listFromCursor(cursor, fromDb);
+    }
+
+    /**
+     * Marks hist as processed
+     */
+    async function markProcessed(hitId: string): Promise<void> {
+        const filter = {
+            _id: toMongoId(hitId)
+        }
+
+        const update = {
+            $set: {
+                processedAt: new Date(),
+            }
+        }
+
+        await collection.updateOne(filter, update);
+    }
+
+    /**
+     * Harks hit as failed
+     */
+    async function markFailed(hitId: string, error: string): Promise<void> {
+        const now = new Date();
+
+        const filter = {
+            _id: toMongoId(hitId)
+        }
+
+        const update = {
+            $inc: {failedAttemptsCount: 1},
+            $set: {lastProcessAttemptAt: now},
+            $push: {errors: {message: error, date: now}}
+        }
+
+        await collection.updateOne(filter, update);
     }
 
     /**
@@ -81,7 +133,9 @@ export async function createHitAdapter(db: Db) {
 
     return {
         create,
-        list,
+        listPending,
+        markProcessed,
+        markFailed,
         removeAll,
     }
 }
@@ -95,6 +149,10 @@ function fromDb(doc: Scheme): Hit {
         eventId: fromMongoId(doc.eventId),
 
         payload: doc.payload,
+
+        lastProcessAttemptAt: doc.lastProcessAttemptAt,
+        failedAttemptsCount: doc.failedAttemptsCount,
+        errors: doc.errors,
 
         processedAt: doc.processedAt,
     }

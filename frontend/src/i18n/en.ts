@@ -10,6 +10,8 @@ export default {
         secretEdit: "Edit Secret",
         secretCreate: "Add New Secret",
         events: "Events",
+        eventEdit: "Edit Event",
+        eventCreate: "Add New Event",
         error: "Error",
         channel: "Channel #{{number}}"
     },
@@ -33,6 +35,8 @@ export default {
         secret: "Secret",
         description: "Description",
         channels: "Channels",
+        mailFrom: "Mail From Address",
+        mailTo: "Mail To Address",
     },
 
     action: {
@@ -72,6 +76,7 @@ export default {
         "not_a_number": "Please enter a number",
         "invalid_port_number": "Invalid port number",
         "no_channels_provided": "Please add at least one channel",
+        "not_valid_key": "Invalid value, only latin letter in lower case, digits and underscore are allowed",
     },
 
     error: {

@@ -1,5 +1,5 @@
 import {array, boolean, byDefault, ChainError, ChainOutput, check, shape} from "treat-like";
-import {optionalString, requiredString, systemIdSchema} from "../validators";
+import {eventKeySchema, optionalString, requiredString, systemIdSchema} from "../validators";
 
 /**
  * Channel sub model
@@ -40,7 +40,7 @@ export const channelSchema = shape({
  * Schema to validate Event params
  */
 export const eventSchema = shape({
-    key: requiredString,
+    key: requiredString.then(eventKeySchema),
     name: requiredString,
     description: optionalString,
 

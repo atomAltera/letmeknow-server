@@ -1,10 +1,15 @@
 import {Database} from "../db";
 
+interface Config {
+    readonly db: Database;
+}
+
 
 /**
  * Initializes secrets logic
  */
-export function initSecretLogic(db: Database) {
+export function initSecretLogic(config: Config) {
+    const {db} = config;
 
     return {
         createTelegram: db.secret.createTelegram,

@@ -1,17 +1,22 @@
 import {Database} from "../db";
 
 
+interface Config {
+    readonly db: Database;
+}
+
 /**
  * Initializes events logic
  */
-export function initEventsLogic(db: Database) {
+export function initEventsLogic(config: Config) {
+    const {db} = config;
 
     /**
      * Register event hit
      */
-    async function registerHit(key: string, payload: string | undefined) {
-        const event = await db.event.getByKey(key);
-        if (!event) throw new Error(`Event with key "${key}" not found in database`);
+    async function registerHit(eventKey: string, payload: string | undefined) {
+        const event = await db.event.getByKey(eventKey);
+        if (!event) throw new Error(`Event with key "${eventKey}" not found in database`);
 
         await db.hit.create(event.userId, event.id, {
             payload

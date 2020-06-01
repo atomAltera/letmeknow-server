@@ -39,7 +39,15 @@ export const systemIdSchema = requiredString.then(value => {
     } else {
         return createErrorResult("not_valid_id");
     }
-})
+});
+
+export const eventKeySchema = requiredString.then(value => {
+    if (value.match(/^[a-z0-9_-]{4,32}$/i)) {
+        return createContinueResult(value);
+    } else {
+        return createErrorResult("not_valid_key");
+    }
+});
 
 export const loginSchema = shape({
     email: requiredString,
@@ -59,7 +67,7 @@ export const channelSchema = shape({
 });
 
 export const eventSchema = shape({
-    key: requiredString,
+    key: requiredString.then(eventKeySchema),
     name: requiredString,
     description: optionalString,
 
@@ -88,4 +96,6 @@ export const partEmailSecretSchema = shape({
     password: requiredString,
     useSSL: byDefault(false).then(boolean),
     useTLS: byDefault(false).then(boolean),
+    mailFrom: requiredString,
+    mailTo: requiredString,
 });

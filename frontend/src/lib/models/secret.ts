@@ -40,6 +40,8 @@ export interface EmailSecret extends SecretBase {
     password: string;
     useSSL: boolean;
     useTLS: boolean;
+    mailFrom: string,
+    mailTo: string,
 }
 
 /**
@@ -76,6 +78,8 @@ export const partEmailSecretSchema = shape({
     password: requiredString,
     useSSL: optionalBoolean,
     useTLS: optionalBoolean,
+    mailFrom: requiredString,
+    mailTo: requiredString,
 });
 
 /**

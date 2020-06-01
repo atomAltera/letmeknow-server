@@ -30,6 +30,8 @@ interface EmailScheme extends SchemeBase {
     password: string;
     useSSL: boolean;
     useTLS: boolean;
+    mailFrom: string;
+    mailTo: string;
 }
 
 type Scheme = TelegramScheme | EmailScheme;
@@ -59,6 +61,8 @@ export interface EmailSecret extends SecretBase {
     password: string;
     useSSL: boolean;
     useTLS: boolean;
+    mailFrom: string;
+    mailTo: string;
 }
 
 export type Secret = TelegramSecret | EmailSecret;
@@ -79,6 +83,8 @@ export interface EmailSecret_Form extends SecretBase_Form {
     password: string;
     useSSL: boolean;
     useTLS: boolean;
+    mailFrom: string;
+    mailTo: string;
 }
 
 
@@ -127,6 +133,8 @@ export async function createSecretAdapter(db: Db) {
             password: form.password,
             useSSL: form.useSSL,
             useTLS: form.useTLS,
+            mailFrom: form.mailFrom,
+            mailTo: form.mailTo,
         }
 
         await collection.insertOne(doc);
@@ -176,6 +184,8 @@ export async function createSecretAdapter(db: Db) {
                 password: form.password,
                 useSSL: form.useSSL,
                 useTLS: form.useTLS,
+                mailFrom: form.mailFrom,
+                mailTo: form.mailTo,
             }
         }
 
@@ -276,6 +286,8 @@ function fromDb(doc: Scheme): Secret {
                 password: doc.password,
                 useSSL: doc.useSSL,
                 useTLS: doc.useTLS,
+                mailFrom: doc.mailFrom,
+                mailTo: doc.mailTo,
             };
     }
 }

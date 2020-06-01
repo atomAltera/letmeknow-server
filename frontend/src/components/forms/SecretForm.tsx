@@ -201,6 +201,44 @@ export const SecretForm: React.FC<Props> = (props) => {
                         />
                     </FormGroup>
 
+                    <FormGroup
+                        intent={intentFromError(errors, "mailFrom")}
+                        helperText={errors?.mailFrom}
+                        label={t('field.mailFrom')}
+                    >
+                        <InputGroup
+                            name="mailFrom"
+                            type="email"
+                            placeholder={t('field.mailFrom')}
+                            leftIcon="user"
+                            disabled={props.loading}
+                            value={props.values.mailFrom ?? ""}
+                            onChange={textChange("mailFrom")}
+                            intent={intentFromError(errors, "mailFrom")}
+                            autoComplete="off"
+                            large
+                        />
+                    </FormGroup>
+
+                    <FormGroup
+                        intent={intentFromError(errors, "mailTo")}
+                        helperText={errors?.mailTo}
+                        label={t('field.mailTo')}
+                    >
+                        <InputGroup
+                            name="mailTo"
+                            type="email"
+                            placeholder={t('field.mailTo')}
+                            leftIcon="user"
+                            disabled={props.loading}
+                            value={props.values.mailTo ?? ""}
+                            onChange={textChange("mailTo")}
+                            intent={intentFromError(errors, "mailTo")}
+                            autoComplete="off"
+                            large
+                        />
+                    </FormGroup>
+
                     <FormGroup>
                         <Switch
                             label={t('field.useTLS')}

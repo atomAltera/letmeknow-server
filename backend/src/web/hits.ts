@@ -1,10 +1,9 @@
 import {Request, Response} from "express";
-import {systemIdSchema, validateBy} from "./validators";
+import {eventKeySchema, validateBy} from "./validators";
 
 
 /**
  * Takes object and serializes it to string
- * @param obj
  */
 function objectToPayload(obj: {}): string | undefined {
     if (Object.keys(obj).length === 0) return undefined;
@@ -15,8 +14,8 @@ function objectToPayload(obj: {}): string | undefined {
 /**
  * Handles event hit
  */
-export async function handleHit(req: Request<{ eventId: string }>, res: Response) {
-    const  eventId = validateBy(req.params.eventId, systemIdSchema);
+export async function handleHit(req: Request<{ eventKey: string }>, res: Response) {
+    const eventKey = validateBy(req.params.eventKey, eventKeySchema);
 
     res.end();
 
@@ -29,7 +28,7 @@ export async function handleHit(req: Request<{ eventId: string }>, res: Response
             payload = objectToPayload(req.body);
         }
 
-        await req.core.event.registerHit(eventId, payload)
+        await req.core.event.registerHit(eventKey, payload);
 
     } catch (e) {
         // TODO: Log hit error
