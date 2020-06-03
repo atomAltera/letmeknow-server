@@ -20,7 +20,7 @@ api.post('/api/auth', h(loginHandler));
 api.get('/api/auth', h(loggedInUserHandler));
 
 // Users management
-api.post('/api/users', h(registrationHandler))
+// api.post('/api/users', h(registrationHandler)) // Disable registration
 
 // Events management
 api.get('/api/events', h(eventListHandler))
