@@ -84,6 +84,8 @@ export default {
     },
 
     notification: {
+        testCallMade: "Test call has been made",
+
         eventCreated: "Event has been created",
         eventUpdated: "Event has been updated",
         eventDeleted: "Event has been deleted",

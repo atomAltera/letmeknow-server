@@ -178,7 +178,7 @@ export const EventForm: React.FC<Props> = (props) => {
                     onChange={textInputChange("description")}
                     intent={intentFromError(errors, "description")}
                     autoComplete="off"
-                    rows={5}
+                    rows={3}
                     fill
                     large
                 />

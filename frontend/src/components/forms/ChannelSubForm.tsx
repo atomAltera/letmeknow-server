@@ -1,8 +1,9 @@
 import React from "react"
 import {useTranslation} from "react-i18next";
-import {Button, FormGroup, MenuItem, Switch, TextArea} from "@blueprintjs/core";
+import {Button, FormGroup, MenuItem, Switch} from "@blueprintjs/core";
 import {ItemRenderer, Select} from "@blueprintjs/select";
 import styled from "styled-components";
+import MonacoEditor from 'react-monaco-editor';
 import {changeHandlers, intentFromError, translateErrors} from "../../lib/forms";
 import {Channel_Errors, Channel_Form} from "../../lib/models/event";
 import {Box} from "../Box";
@@ -46,9 +47,9 @@ export const ChannelSubForm: React.FC<Props> = (props) => {
     const errors = translateErrors(props.errors, t);
 
     const {
-        textInputChange,
         booleanInputChange,
         modelChange,
+        valueChange,
     } = changeHandlers(props.values, props.onChange);
 
     return (
@@ -79,17 +80,28 @@ export const ChannelSubForm: React.FC<Props> = (props) => {
                 intent={intentFromError(errors, "template")}
                 helperText={errors?.template}
             >
-                <TextArea
-                    name="template"
-                    placeholder={t('field.template')}
-                    disabled={props.loading}
+                {/*<TextArea*/}
+                {/*    name="template"*/}
+                {/*    placeholder={t('field.template')}*/}
+                {/*    disabled={props.loading}*/}
+                {/*    value={props.values.template ?? ""}*/}
+                {/*    onChange={textInputChange("template")}*/}
+                {/*    intent={intentFromError(errors, "template")}*/}
+                {/*    autoComplete="off"*/}
+                {/*    rows={5}*/}
+                {/*    fill*/}
+                {/*    large*/}
+                {/*/>*/}
+
+                <MonacoEditor
+                    height={200}
+                    language="handlebars"
+                    theme="vs-light"
                     value={props.values.template ?? ""}
-                    onChange={textInputChange("template")}
-                    intent={intentFromError(errors, "template")}
-                    autoComplete="off"
-                    rows={5}
-                    fill
-                    large
+                    options={{
+                        minimap: {enabled: false},
+                    }}
+                    onChange={valueChange("template")}
                 />
             </FormGroup>
 

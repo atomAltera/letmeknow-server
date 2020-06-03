@@ -50,6 +50,11 @@ async function remove<T>(path: string) {
     return resp.data;
 }
 
+// Call
+export function testCall(eventKey: string, params?: any) {
+    return post<void>(`/call/${eventKey}`, params)
+}
+
 // Auth
 /**
  * Request current logged in user

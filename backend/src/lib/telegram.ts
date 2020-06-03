@@ -12,7 +12,9 @@ export async function sendTelegramMessage(credentials: Credentials, message: str
     const urlSafeMessage = encodeURIComponent(message);
 
     const url = `https://api.telegram.org/bot${credentials.secret}/sendMessage` +
-        `?chat_id=${credentials.channelId}&text=${urlSafeMessage}`;
+        `?chat_id=${credentials.channelId}`+
+        `&text=${urlSafeMessage}` +
+        `&parse_mode=html`;
 
     await axios.get(url);
 }
