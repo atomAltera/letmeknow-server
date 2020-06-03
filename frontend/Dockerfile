@@ -5,6 +5,7 @@ WORKDIR /opt/app
 COPY package.json ./
 COPY package-lock.json ./
 COPY tsconfig.json ./
+COPY config-overrides.js ./
 COPY src ./src
 COPY public ./public
 
