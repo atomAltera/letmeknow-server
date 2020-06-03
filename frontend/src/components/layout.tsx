@@ -28,7 +28,7 @@ export const SidebarSide = styled.div`
 `
 
 export const SidebarContent = styled.div`
-  padding: 2rem 4rem; 
+  padding: 2rem 4rem;
 `
 
 export const MainSide = styled.main`
