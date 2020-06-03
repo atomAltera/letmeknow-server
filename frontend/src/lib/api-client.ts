@@ -2,8 +2,7 @@ import axios from "axios";
 import {Login_Form} from "./models/login";
 import {User} from "./models/user";
 import {Secret, Secret_Form} from "./models/secret";
-import {Event} from "./models/event";
-import {Event_Form} from "../../../backend/src/db/models/event";
+import {Event, Event_Form} from "./models/event";
 
 // General
 /**
