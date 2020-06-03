@@ -46,8 +46,8 @@ export const ChannelSubForm: React.FC<Props> = (props) => {
     const errors = translateErrors(props.errors, t);
 
     const {
-        textChange,
-        booleanChange,
+        textInputChange,
+        booleanInputChange,
         modelChange,
     } = changeHandlers(props.values, props.onChange);
 
@@ -75,7 +75,6 @@ export const ChannelSubForm: React.FC<Props> = (props) => {
 
             </FormGroup>
 
-
             <FormGroup
                 intent={intentFromError(errors, "template")}
                 helperText={errors?.template}
@@ -85,7 +84,7 @@ export const ChannelSubForm: React.FC<Props> = (props) => {
                     placeholder={t('field.template')}
                     disabled={props.loading}
                     value={props.values.template ?? ""}
-                    onChange={textChange("template")}
+                    onChange={textInputChange("template")}
                     intent={intentFromError(errors, "template")}
                     autoComplete="off"
                     rows={5}
@@ -101,7 +100,7 @@ export const ChannelSubForm: React.FC<Props> = (props) => {
                         label={t('field.isActive')}
                         disabled={props.loading}
                         checked={!!props.values.isActive}
-                        onChange={booleanChange("isActive")}
+                        onChange={booleanInputChange("isActive")}
                         large
                     />
                 </FormGroup>

@@ -12,7 +12,7 @@ interface BaseProps {
 
 
 const iconStyle = css`
-  font-size: 2em;
+  font-size: 28px;
 `
 
 const TelegramIcon = styled(FaTelegram)`
@@ -22,7 +22,7 @@ const TelegramIcon = styled(FaTelegram)`
 
 const EmailIcon = styled(FaAt)`
   ${iconStyle};
-  color: #ff0000;
+  color: #f32e2e;
 `
 
 const OtherIcon = styled(FaLock)`

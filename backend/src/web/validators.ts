@@ -69,6 +69,7 @@ export const channelSchema = shape({
 export const eventSchema = shape({
     key: requiredString.then(eventKeySchema),
     name: requiredString,
+    icon: optionalString,
     description: optionalString,
 
     isActive: byDefault(true).then(boolean),

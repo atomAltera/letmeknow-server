@@ -38,8 +38,8 @@ export const LoginForm: React.FC<Props> = (props) => {
     const errors = translateErrors(props.errors, t);
 
     const {
-        textChange,
-        booleanChange
+        textInputChange,
+        booleanInputChange
     } = changeHandlers(props.values, props.onChange);
 
     const handleSubmit = (e: React.SyntheticEvent) => {
@@ -69,7 +69,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                     leftIcon="envelope"
                     disabled={props.loading}
                     value={props.values.email ?? ""}
-                    onChange={textChange("email")}
+                    onChange={textInputChange("email")}
                     intent={intentFromError(errors, "email")}
                     autoComplete="email"
                     large
@@ -87,7 +87,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                     leftIcon="lock"
                     disabled={props.loading}
                     value={props.values.password ?? ""}
-                    onChange={textChange("password")}
+                    onChange={textInputChange("password")}
                     intent={intentFromError(errors, "password")}
                     autoComplete="current-password"
                     large
@@ -99,7 +99,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                     label={t('field.rememberMe')}
                     disabled={props.loading}
                     checked={!!props.values.remember}
-                    onChange={booleanChange("remember")}
+                    onChange={booleanInputChange("remember")}
                     large
                 />
             </FormGroup>

@@ -20,6 +20,7 @@ export interface Event {
 
     key: string;
     name: string;
+    icon: string;
     description: string;
 
     isActive: boolean;
@@ -42,6 +43,7 @@ export const channelSchema = shape({
 export const eventSchema = shape({
     key: requiredString.then(eventKeySchema),
     name: requiredString,
+    icon: optionalString,
     description: optionalString,
 
     isActive: byDefault(true).then(boolean),

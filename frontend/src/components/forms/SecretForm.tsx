@@ -34,9 +34,9 @@ export const SecretForm: React.FC<Props> = (props) => {
     const errors = translateErrors(props.errors, t);
 
     const {
-        textChange,
-        numberChange,
-        booleanChange
+        textInputChange,
+        numberInputChange,
+        booleanInputChange
     } = changeHandlers(props.values, props.onChange);
 
     const handleSubmit = (e: React.SyntheticEvent) => {
@@ -54,7 +54,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                     label={t('field.kind')}
                     selectedValue={props.values.kind}
                     disabled={props.loading}
-                    onChange={textChange('kind') as any}
+                    onChange={textInputChange('kind') as any}
                 >
                     <Radio label="Telegram" value="telegram"/>
                     <Radio label="Email" value="email"/>
@@ -73,7 +73,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                     leftIcon="id-number"
                     disabled={props.loading}
                     value={props.values.name ?? ""}
-                    onChange={textChange("name")}
+                    onChange={textInputChange("name")}
                     intent={intentFromError(errors, "name")}
                     autoComplete="off"
                     large
@@ -94,7 +94,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             leftIcon="key"
                             disabled={props.loading}
                             value={props.values.botSecret ?? ""}
-                            onChange={textChange("botSecret")}
+                            onChange={textInputChange("botSecret")}
                             intent={intentFromError(errors, "botSecret")}
                             autoComplete="off"
                             large
@@ -114,7 +114,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             leftIcon="chat"
                             disabled={props.loading}
                             value={props.values.chatId ?? ""}
-                            onChange={textChange("chatId")}
+                            onChange={textInputChange("chatId")}
                             intent={intentFromError(errors, "chatId")}
                             autoComplete="off"
                             large
@@ -137,7 +137,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             leftIcon="ip-address"
                             disabled={props.loading}
                             value={props.values.host ?? ""}
-                            onChange={textChange("host")}
+                            onChange={textInputChange("host")}
                             intent={intentFromError(errors, "host")}
                             autoComplete="off"
                             large
@@ -156,7 +156,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             leftIcon="console"
                             disabled={props.loading}
                             value={String(props.values.port ?? "")}
-                            onChange={numberChange("port")}
+                            onChange={numberInputChange("port")}
                             intent={intentFromError(errors, "port")}
                             autoComplete="off"
                             large
@@ -175,7 +175,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             leftIcon="user"
                             disabled={props.loading}
                             value={props.values.username ?? ""}
-                            onChange={textChange("username")}
+                            onChange={textInputChange("username")}
                             intent={intentFromError(errors, "username")}
                             autoComplete="off"
                             large
@@ -194,7 +194,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             leftIcon="lock"
                             disabled={props.loading}
                             value={props.values.password ?? ""}
-                            onChange={textChange("password")}
+                            onChange={textInputChange("password")}
                             intent={intentFromError(errors, "password")}
                             autoComplete="off"
                             large
@@ -213,7 +213,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             leftIcon="user"
                             disabled={props.loading}
                             value={props.values.mailFrom ?? ""}
-                            onChange={textChange("mailFrom")}
+                            onChange={textInputChange("mailFrom")}
                             intent={intentFromError(errors, "mailFrom")}
                             autoComplete="off"
                             large
@@ -232,7 +232,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             leftIcon="user"
                             disabled={props.loading}
                             value={props.values.mailTo ?? ""}
-                            onChange={textChange("mailTo")}
+                            onChange={textInputChange("mailTo")}
                             intent={intentFromError(errors, "mailTo")}
                             autoComplete="off"
                             large
@@ -244,7 +244,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             label={t('field.useTLS')}
                             disabled={props.loading}
                             checked={!!props.values.useTLS}
-                            onChange={booleanChange("useTLS")}
+                            onChange={booleanInputChange("useTLS")}
                             large
                         />
 
@@ -252,7 +252,7 @@ export const SecretForm: React.FC<Props> = (props) => {
                             label={t('field.useSSL')}
                             disabled={props.loading}
                             checked={!!props.values.useSSL}
-                            onChange={booleanChange("useSSL")}
+                            onChange={booleanInputChange("useSSL")}
                             large
                         />
                     </FormGroup>

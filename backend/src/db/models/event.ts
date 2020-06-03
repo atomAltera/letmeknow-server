@@ -10,6 +10,7 @@ interface Scheme {
 
     key: string;
     name: string;
+    icon?: string;
     description: string;
 
     isActive: boolean;
@@ -28,6 +29,7 @@ export interface Event {
 
     key: string;
     name: string;
+    icon: string;
     description: string;
 
     isActive: boolean;
@@ -42,6 +44,7 @@ export interface Event {
 export interface Event_Form {
     key: string;
     name: string;
+    icon: string;
     description: string;
 
     isActive: boolean;
@@ -73,6 +76,7 @@ export async function createEventAdapter(db: Db) {
 
             key: form.key,
             name: form.name,
+            icon: form.icon,
             description: form.description,
 
             isActive: form.isActive,
@@ -102,6 +106,7 @@ export async function createEventAdapter(db: Db) {
             $set: {
                 key: form.key,
                 name: form.name,
+                icon: form.icon,
                 description: form.description,
 
                 isActive: form.isActive,
@@ -199,6 +204,7 @@ function fromDb(doc: Scheme): Event {
 
         key: doc.key,
         name: doc.name,
+        icon: doc.icon || "confirm",
         description: doc.description,
 
         isActive: doc.isActive,

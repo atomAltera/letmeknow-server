@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components";
 import {Box} from "./Box";
-import {Button, EditableText} from "@blueprintjs/core";
+import {Button, EditableText, Icon, IconName} from "@blueprintjs/core";
 import {Event} from "../lib/models/event";
 import {useHistory} from "react-router";
 import {Link} from "react-router-dom";
@@ -14,12 +14,12 @@ const Header = styled.div`
   margin: 0 1em;
   
   display: grid;
-  grid-template-columns: auto min-content;
+  grid-template-columns: min-content auto min-content;
   align-items: center;
 `
 
 const Name = styled.h3`
-  margin: 1em 0;
+  margin: 1em;
 `
 
 const UrlView = styled.code`
@@ -41,6 +41,7 @@ export const EventView: React.FC<Props> = (props) => {
     return (
         <Box>
             <Header>
+                <Icon icon={event.icon as IconName} iconSize={28} />
                 <Name><Link to={editUrl}>{event.name}</Link></Name>
                 <Button
                     icon="edit"

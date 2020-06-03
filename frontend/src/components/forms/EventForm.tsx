@@ -1,24 +1,12 @@
 import React from "react"
 import {useTranslation} from "react-i18next";
 import {append, assoc, remove} from "ramda";
-import {Button, ControlGroup, FormGroup, H3, InputGroup, Switch, TextArea} from "@blueprintjs/core";
+import {Button, ControlGroup, FormGroup, H3, IconName, InputGroup, Switch, TextArea,} from "@blueprintjs/core";
 import styled from "styled-components";
 import {changeHandlers, intentFromError, translateErrors} from "../../lib/forms";
 import {Channel_Errors, Channel_Form, Event_Errors, Event_Form} from "../../lib/models/event";
 import {ChannelSubForm} from "./ChannelSubForm";
 import {Secret} from "../../lib/models/secret";
-
-const Form = styled.form`
-  padding: 1em 0;
-`
-
-const Actions = styled.div`
-  margin-top: 3em;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`
 
 interface Props {
     loading?: boolean;
@@ -33,15 +21,39 @@ interface Props {
     onDelete?: () => void;
 }
 
+const Form = styled.form`
+  padding: 1em 0;
+`
+
+const Actions = styled.div`
+  margin-top: 3em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const IconsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  grid-auto-rows: 1fr;
+`
+
+const ICONS: IconName[] = [
+    "confirm", "circle", "warning-sign", "error", "user", "bookmark", "globe"
+]
+
 export const EventForm: React.FC<Props> = (props) => {
     const [t] = useTranslation();
 
     const errors = translateErrors(props.errors, t);
 
     const {
-        textChange,
-        booleanChange,
+        textInputChange,
+        booleanInputChange,
         arrayItemChange,
+        valueChange
     } = changeHandlers(props.values, props.onChange);
 
     const handleSubmit = (e: React.SyntheticEvent) => {
@@ -76,13 +88,13 @@ export const EventForm: React.FC<Props> = (props) => {
             .replace(/[^a-z0-9_-]+/g, '')
 
         const b = Math.round(
-                Date.now() *
-                JSON.stringify(props.values).length *
-                Math.random() * 91921232861
-            ) % 34246711271
+            Date.now() *
+            JSON.stringify(props.values).length *
+            Math.random() * 91921232861
+        ) % 34246711271
 
 
-        const key =  (a.length > 0) ? `${a}-${b}` : String(b * 718579);
+        const key = (a.length > 0) ? `${a}-${b}` : String(b * 718579);
 
         props.onChange(assoc('key', key, props.values))
     }
@@ -99,16 +111,30 @@ export const EventForm: React.FC<Props> = (props) => {
                     name="name"
                     type="text"
                     placeholder={t('field.name')}
-                    leftIcon="id-number"
+                    leftIcon={props.values.icon as IconName}
                     disabled={props.loading}
                     value={props.values.name ?? ""}
-                    onChange={textChange("name")}
+                    onChange={textInputChange("name")}
                     intent={intentFromError(errors, "name")}
                     autoComplete="off"
                     large
                 />
             </FormGroup>
 
+
+            <FormGroup>
+                <IconsGrid>
+                    {ICONS.map(i => (
+                        <Button
+                            key={i}
+                            icon={i}
+                            active={props.values.icon == i}
+                            onClick={() => valueChange("icon", i)}
+                            minimal
+                        />
+                    ))}
+                </IconsGrid>
+            </FormGroup>
 
             <FormGroup
                 intent={intentFromError(errors, "key")}
@@ -124,7 +150,7 @@ export const EventForm: React.FC<Props> = (props) => {
                         leftIcon="key"
                         disabled={props.loading}
                         value={props.values.key ?? ""}
-                        onChange={textChange("key")}
+                        onChange={textInputChange("key")}
                         intent={intentFromError(errors, "key")}
                         autoComplete="off"
                         large
@@ -149,7 +175,7 @@ export const EventForm: React.FC<Props> = (props) => {
                     placeholder={t('field.description')}
                     disabled={props.loading}
                     value={props.values.description ?? ""}
-                    onChange={textChange("description")}
+                    onChange={textInputChange("description")}
                     intent={intentFromError(errors, "description")}
                     autoComplete="off"
                     rows={5}
@@ -163,7 +189,7 @@ export const EventForm: React.FC<Props> = (props) => {
                     label={t('field.isActive')}
                     disabled={props.loading}
                     checked={!!props.values.isActive}
-                    onChange={booleanChange("isActive")}
+                    onChange={booleanInputChange("isActive")}
                     large
                 />
             </FormGroup>
