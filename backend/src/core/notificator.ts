@@ -7,7 +7,13 @@ import {sendEmailMessage} from "../lib/email";
 /**
  * Notify target using secret and template of notification with some payload
  */
-export async function sendNotification(secret: Secret, eventName: string, template: string, payload: string | undefined) {
+export async function sendNotification(
+    secret: Secret,
+    eventName: string,
+    template: string,
+    payload: string | undefined,
+    globalVars: any,
+) {
     let params: any = {};
 
     if (payload) {
@@ -17,6 +23,8 @@ export async function sendNotification(secret: Secret, eventName: string, templa
             console.warn(`Error while parsing payload: ${e.message}`)
         }
     }
+
+    params = {...params, ...globalVars};
 
     const message = renderTemplate(template, params);
 

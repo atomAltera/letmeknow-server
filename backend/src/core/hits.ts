@@ -28,6 +28,10 @@ export function initHitsLogic(config: Config) {
 
         if (!event.isActive) return;
 
+        const globalVars: any = {
+            hit,
+        };
+
         await Promise.all(
             event.channels.map(async channel => {
                 if (!channel.isActive) return;
@@ -36,7 +40,13 @@ export function initHitsLogic(config: Config) {
 
                 if (!secret) throw new Error(`Secret with id ${channel.secretId} did not found for event ${event.id}`);
 
-                await sendNotification(secret, event.name, channel.template, hit.payload);
+                await sendNotification(
+                    secret,
+                    event.name,
+                    channel.template,
+                    hit.payload,
+                    globalVars
+                );
             })
         );
     }
