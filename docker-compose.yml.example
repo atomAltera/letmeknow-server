@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  frontend:
+    restart: always
+    build: ./frontend
+
+    environment:
+      BACKEND_HOST: backend
+      BACKEND_PORT: 3000
+
+    depends_on:
+      - backend
+
+    ports:
+    - 4000:80
+
+  backend:
+    restart: always
+    build: ./backend
+
+    environment:
+      DATABASE_URI: mongodb://database/letmeknow
+      SERVICE_PORT: 3000
+      SESSIONS_SECRET: please-change
+
+    depends_on:
+      - database
+
+  database:
+    restart: always
+    image: mongo:4.2.0-bionic
+

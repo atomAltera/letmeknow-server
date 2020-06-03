@@ -27,3 +27,5 @@ yarn-error.log*
 # editors
 /.idea
 /.vscode
+
+docker-compose.yml
