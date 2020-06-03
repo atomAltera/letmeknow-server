@@ -67,8 +67,48 @@ export const EventForm: React.FC<Props> = (props) => {
         props.onChange(assoc("channels", newChannels, props.values));
     }
 
+    const handleGenerateKeyClick = () => {
+        const name = props.values.name || "";
+
+        const a = name.trim()
+            .toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9_-]+/g, '')
+
+        const b = Math.round(
+                Date.now() *
+                JSON.stringify(props.values).length *
+                Math.random() * 91921232861
+            ) % 34246711271
+
+
+        const key =  (a.length > 0) ? `${a}-${b}` : String(b * 718579);
+
+        props.onChange(assoc('key', key, props.values))
+    }
+
     return (
         <Form onSubmit={handleSubmit}>
+
+            <FormGroup
+                intent={intentFromError(errors, "name")}
+                helperText={errors?.name}
+                label={t('field.name')}
+            >
+                <InputGroup
+                    name="name"
+                    type="text"
+                    placeholder={t('field.name')}
+                    leftIcon="id-number"
+                    disabled={props.loading}
+                    value={props.values.name ?? ""}
+                    onChange={textChange("name")}
+                    intent={intentFromError(errors, "name")}
+                    autoComplete="off"
+                    large
+                />
+            </FormGroup>
+
 
             <FormGroup
                 intent={intentFromError(errors, "key")}
@@ -91,31 +131,13 @@ export const EventForm: React.FC<Props> = (props) => {
                     />
 
                     <Button
-                        disabled
-                        icon="refresh"
+                        icon="more"
+                        onClick={handleGenerateKeyClick}
                     />
 
                 </ControlGroup>
             </FormGroup>
 
-            <FormGroup
-                intent={intentFromError(errors, "name")}
-                helperText={errors?.name}
-                label={t('field.name')}
-            >
-                <InputGroup
-                    name="name"
-                    type="text"
-                    placeholder={t('field.name')}
-                    leftIcon="id-number"
-                    disabled={props.loading}
-                    value={props.values.name ?? ""}
-                    onChange={textChange("name")}
-                    intent={intentFromError(errors, "name")}
-                    autoComplete="off"
-                    large
-                />
-            </FormGroup>
 
             <FormGroup
                 intent={intentFromError(errors, "description")}
