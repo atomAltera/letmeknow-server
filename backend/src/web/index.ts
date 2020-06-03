@@ -55,8 +55,8 @@ export async function startServer(config: WebConfig): Promise<void> {
     app.use(api);
 
     // Event hit handler
-    app.get('/:eventKey', h(handleHit));
-    app.post('/:eventKey', h(handleHit));
+    app.get('/call/:eventKey', h(handleHit));
+    app.post('/call/:eventKey', h(handleHit));
 
     // Error handler
     app.use((error: any, req: Request, res: Response, next: NextFunction) => {
