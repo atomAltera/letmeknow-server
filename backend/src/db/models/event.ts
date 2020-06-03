@@ -1,7 +1,7 @@
 import {Db, ObjectId} from "mongodb";
 
 import {Maybe} from "../../lib/helper-types";
-import {fromMongoId, listFromCursor, toMongoId} from "../utils";
+import {ensureIndex, fromMongoId, listFromCursor, toMongoId} from "../utils";
 
 interface Scheme {
     _id: ObjectId;
@@ -59,6 +59,8 @@ export interface Event_Form {
  */
 export async function createEventAdapter(db: Db) {
     const collection = await db.createCollection<Scheme>("events");
+
+    await ensureIndex(collection, {key: 1}, {unique: true})
 
     /**
      * Create event for specified user

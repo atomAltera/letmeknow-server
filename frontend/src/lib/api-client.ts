@@ -3,13 +3,22 @@ import {Login_Form} from "./models/login";
 import {User} from "./models/user";
 import {Secret, Secret_Form} from "./models/secret";
 import {Event, Event_Form} from "./models/event";
+import {notifyError} from "./toaster";
+
+function unknownErrorHandling(e: any): never {
+    if (e.response.status == 500) {
+        notifyError(e.message)
+    }
+
+    throw e;
+}
 
 // General
 /**
  * Run GET request to path with provided *query*
  */
 async function get<T, D = any>(path: string, query?: D) {
-    const resp = await axios.get<T>(path, {params: query});
+    const resp = await axios.get<T>(path, {params: query}).catch(unknownErrorHandling);
 
     return resp.data;
 }
@@ -18,7 +27,7 @@ async function get<T, D = any>(path: string, query?: D) {
  * Run POST request to path with provided payload in *data*
  */
 async function post<T, D = any>(path: string, data?: D) {
-    const resp = await axios.post<T>(path, data);
+    const resp = await axios.post<T>(path, data).catch(unknownErrorHandling);
 
     return resp.data;
 }
@@ -27,7 +36,7 @@ async function post<T, D = any>(path: string, data?: D) {
  * Run PUT request to path with provided payload in *data*
  */
 async function put<T, D = any>(path: string, data?: D) {
-    const resp = await axios.put<T>(path, data);
+    const resp = await axios.put<T>(path, data).catch(unknownErrorHandling);
 
     return resp.data;
 }
@@ -36,7 +45,7 @@ async function put<T, D = any>(path: string, data?: D) {
  * Runs DELETE query
  */
 async function remove<T>(path: string) {
-    const resp = await axios.delete<T>(path);
+    const resp = await axios.delete<T>(path).catch(unknownErrorHandling);
 
     return resp.data;
 }
