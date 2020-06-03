@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components";
 import {Box} from "./Box";
-import {Button} from "@blueprintjs/core";
+import {Button, EditableText} from "@blueprintjs/core";
 import {Event} from "../lib/models/event";
 import {useHistory} from "react-router";
 import {Link} from "react-router-dom";
@@ -19,7 +19,12 @@ const Header = styled.div`
 `
 
 const Name = styled.h3`
-  margin: 1em;
+  margin: 1em 0;
+`
+
+const UrlView = styled.code`
+  padding: 0.4em 1em;
+  display: block;
 `
 
 export const EventView: React.FC<Props> = (props) => {
@@ -27,6 +32,11 @@ export const EventView: React.FC<Props> = (props) => {
     const {event} = props;
 
     const editUrl = `/events/${event.id}`;
+
+    const triggerUrl =
+        window.location.protocol + '//' +
+        window.location.host +
+        '/call/' + encodeURIComponent(event.key);
 
     return (
         <Box>
@@ -38,6 +48,8 @@ export const EventView: React.FC<Props> = (props) => {
                     onClick={() => history.push(editUrl)}
                 />
             </Header>
+
+            <UrlView>{triggerUrl}</UrlView>
         </Box>
     )
 }
