@@ -36,6 +36,8 @@ const EventsPage: React.FC = () => {
             <NoDataView
                 title={t('heading.events')}
                 placeholderTitle={t('placeholder.noEvents.title')}
+                createLinkHref={'/events/new'}
+                createLinkTitle={t('action.createEvent')}
             />
         )
     }

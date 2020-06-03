@@ -36,6 +36,8 @@ const SecretsPage: React.FC = () => {
             <NoDataView
                 title={t('heading.secrets')}
                 placeholderTitle={t('placeholder.noSecrets.title')}
+                createLinkHref={t('/secrets/new')}
+                createLinkTitle={t('action.createSecret')}
             />
         )
     }
