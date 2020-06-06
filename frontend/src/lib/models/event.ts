@@ -62,4 +62,3 @@ export type Channel_Errors = ChainError<typeof channelSchema> | undefined;
  */
 export type Event_Form = ChainOutput<typeof eventSchema>;
 export type Event_Errors = ChainError<typeof eventSchema> | undefined;
-export type Event_PartialForm = Partial<Omit<Event_Form, "channels">> & {channels?: Partial<Channel_Form>}
