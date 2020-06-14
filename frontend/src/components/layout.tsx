@@ -32,8 +32,8 @@ export const SidebarContent = styled.div`
 `
 
 export const MainSide = styled.main`
-  min-height: 100vh;
-  //background: #EBF1F5;
+  height: 100vh;
+  overflow-y: scroll;
   background: white;
   display: flex;
   justify-content: start;
@@ -42,7 +42,7 @@ export const MainSide = styled.main`
 
 export const MainContent = styled.div`
   padding: 2rem 4rem; 
-  width: 600px;
+  width: 720px;
 `
 
 export const SidebarLayout = styled.div`
