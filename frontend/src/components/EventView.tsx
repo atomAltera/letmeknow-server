@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components";
 import {Box} from "./Box";
-import {Button, Icon, IconName} from "@blueprintjs/core";
+import {Button, Icon, IconName, Tag} from "@blueprintjs/core";
 import {Event} from "../lib/models/event";
 import {useHistory} from "react-router";
 import {Link} from "react-router-dom";
@@ -39,9 +39,10 @@ const UrlView = styled.div`
   }
 `
 
-const KeyView = styled.div`
-  padding: 0.4em 1em;
-  font-size: 0.9em;
+const TagLine = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 1em;
 `
 
 export const EventView: React.FC<Props> = (props) => {
@@ -80,23 +81,24 @@ export const EventView: React.FC<Props> = (props) => {
                 />
             </Header>
 
+            <UrlView>
+                <span>link:</span>&nbsp;
+                <code>{triggerUrl}</code>
+            </UrlView>
+
             {event.description && (
                 <Description>
                     {event.description}
                 </Description>
             )}
 
-            <KeyView>
-                <span>key:</span>&nbsp;
-                <strong>{event.key}</strong>
-            </KeyView>
-
-            <UrlView>
-                <span>link:</span>&nbsp;
-                <code>{triggerUrl}</code>
-            </UrlView>
-
-
+            <TagLine>
+                {event.isActive ? (
+                    <Tag intent="success">{t('tag.active')}</Tag>
+                ):(
+                    <Tag intent="warning">{t('tag.inactive')}</Tag>
+                )}
+            </TagLine>
         </Box>
     )
 }

@@ -93,5 +93,10 @@ export default {
         secretCreated: "Secret has been created",
         secretUpdated: "Secret has been updated",
         secretDeleted: "Secret has been deleted",
+    },
+
+    tag: {
+        active: "active",
+        inactive: "inactive",
     }
 }
