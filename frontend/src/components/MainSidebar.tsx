@@ -12,16 +12,15 @@ const Nav = styled.nav`
 const Item = styled(Link)`
   display: block;
   padding: 0.3em;
-  
+
   color: #137CBD;
   font-size: 1.2em;
   font-weight: 600;
 
 
-  
   &:hover {
     color: #48AFF0;
-    
+
     background: #EBF1F5;
     border-radius: 4px;
     text-decoration: none;

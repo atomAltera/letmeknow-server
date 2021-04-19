@@ -18,22 +18,20 @@ export const SmallColumn = styled.div`
 `
 
 export const SidebarSide = styled.div`
-  height: 100vh;
-  overflow-y: scroll;
   background: white;
   justify-content: end;
   display: flex;
   align-items: start;
   animation: 1s ${fadeIn} ease-in-out forwards;
-`
-
-export const SidebarContent = styled.div`
+  min-height: 100vh;
   padding: 2rem 4rem;
 `
 
+export const SidebarContent = styled.div`
+  position: fixed;
+`
+
 export const MainSide = styled.main`
-  height: 100vh;
-  overflow-y: scroll;
   background: white;
   display: flex;
   justify-content: start;
@@ -48,7 +46,7 @@ export const MainContent = styled.div`
 export const SidebarLayout = styled.div`
   display: grid;
   grid-template-columns: 2fr 3fr;
-  grid-template-rows: min-content;
+  grid-template-rows: 1fr;
 `;
 
 
