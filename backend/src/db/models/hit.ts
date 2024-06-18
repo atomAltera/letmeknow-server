@@ -42,6 +42,8 @@ export interface Hit_Form {
 export async function createHitAdapter(db: Db) {
     const collection = await db.createCollection<Scheme>("hits");
 
+    // TODO: Add indexes
+
     /**
      * Create hit for specified event and user
      */
@@ -121,14 +123,10 @@ export async function createHitAdapter(db: Db) {
     }
 
     /**
-     * Removes all hits of specified user
+     * Removes all hits
      */
-    async function removeAll(userId: string): Promise<void> {
-        const filter = {
-            userId: toMongoId(userId)
-        }
-
-        await collection.deleteMany(filter)
+    async function cleanUp(): Promise<void> {
+        await collection.deleteMany({})
     }
 
     return {
@@ -136,7 +134,7 @@ export async function createHitAdapter(db: Db) {
         listPending,
         markProcessed,
         markFailed,
-        removeAll,
+        cleanUp,
     }
 }
 

@@ -65,7 +65,7 @@ export function initHitsLogic(config: Config) {
                     await processHit(hit);
 
                     await db.hit.markProcessed(hit.id)
-                } catch (e) {
+                } catch (e: any) {
                     await db.hit.markFailed(hit.id, e.message)
                 }
             })
@@ -74,7 +74,7 @@ export function initHitsLogic(config: Config) {
 
     return {
         process,
-        removeAll: db.hit.removeAll,
+        cleanUp: db.hit.cleanUp,
     }
 }
 

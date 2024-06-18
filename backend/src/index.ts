@@ -20,10 +20,13 @@ async function main() {
     });
     console.log(`Core has been initialized`)
 
+    console.log(`Removing all hits`)
+    await core.hit.cleanUp();
+
     // Starting scheduler
     const scheduler = await launchScheduler({
         core,
-        cyclePeriodInSeconds: 3,
+        cyclePeriodInSeconds: 1,
     });
 
     // Starting web server

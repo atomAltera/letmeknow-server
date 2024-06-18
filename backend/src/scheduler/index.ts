@@ -15,8 +15,6 @@ interface SchedulerConfig {
  */
 export async function launchScheduler(config: SchedulerConfig) {
     let timeout: NodeJS.Timeout | undefined;
-    const {core} = config;
-
 
     /**
      * Main cycle function
