@@ -65,7 +65,7 @@ export function initHitsLogic(config: Config) {
                     await processHit(hit);
 
                     await db.hit.markProcessed(hit.id)
-                } catch (e: any) {
+                } catch (e) {
                     await db.hit.markFailed(hit.id, e.message)
                 }
             })
