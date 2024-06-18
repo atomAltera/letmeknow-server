@@ -1,4 +1,4 @@
-FROM node:14.4.0-alpine as build
+FROM node:14-alpine as build
 
 WORKDIR /opt/app
 
@@ -9,7 +9,7 @@ COPY config-overrides.js ./
 COPY src ./src
 COPY public ./public
 
-RUN npm i
+RUN npm install
 RUN npm run build
 
 FROM nginx:1.19.0-alpine
